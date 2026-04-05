@@ -1,0 +1,592 @@
+/* ============================================================
+   MOBILE RESPONSIVE OVERRIDES
+   Only active below 768px. Desktop layout is completely untouched.
+   ============================================================ */
+
+@media (max-width: 767px) {
+
+  /* ── Global ── */
+  html, body, #root {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+
+  /* ────────────────────────────────────────────
+     HOMEPAGE  (data-name="Desktop - 25")
+     ──────────────────────────────────────────── */
+
+  /* Root container: switch from relative + absolute children to flow */
+  [data-name="Desktop - 25"] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  /* All direct absolute children become flow items */
+  [data-name="Desktop - 25"] > div {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+
+  /* Header (Frame104) */
+  [data-name="Desktop - 25"] > .w-\[1264px\] {
+    width: 100% !important;
+    padding: 16px !important;
+    box-sizing: border-box !important;
+    margin-top: 16px !important;
+  }
+
+  /* Hide tagline on mobile */
+  [data-name="Desktop - 25"] > .w-\[1264px\] .w-\[342px\] {
+    display: none !important;
+  }
+  /* Also hide the divider next to tagline */
+  [data-name="Desktop - 25"] > .w-\[1264px\] .h-\[38px\].w-0 {
+    display: none !important;
+  }
+
+  /* Hero + Services (Frame103) - side by side → stacked */
+  [data-name="Desktop - 25"] > .w-\[1280px\] {
+    width: 100% !important;
+    padding: 16px !important;
+    box-sizing: border-box !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    margin-top: 16px !important;
+  }
+
+  /* Form section inside hero (Frame102) */
+  [data-name="Desktop - 25"] > .w-\[1280px\] > div:first-child {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Services section beside form */
+  [data-name="Desktop - 25"] > .w-\[1280px\] > .grow {
+    width: 100% !important;
+  }
+
+  /* Service card rows - make them wrap */
+  [data-name="Desktop - 25"] .basis-0.grow.rounded-\[10px\] {
+    min-width: calc(50% - 8px) !important;
+    flex: 0 0 calc(50% - 8px) !important;
+  }
+
+  /* Info box (Frame154) view all services */
+  [data-name="Desktop - 25"] .w-\[242\.662px\] {
+    width: auto !important;
+  }
+
+  /* Dashboard section (Frame138) */
+  [data-name="Desktop - 25"] > .bg-\[rgba\(245\,230\,211\,0\.5\)\].w-\[1280px\] {
+    width: calc(100% - 32px) !important;
+    margin: 24px 16px !important;
+    box-sizing: border-box !important;
+  }
+  /* Dashboard content */
+  [data-name="Desktop - 25"] .w-\[460px\] {
+    width: 100% !important;
+  }
+  /* Dashboard image - hide on mobile */
+  [data-name="Desktop - 25"] .w-\[516px\].h-\[303px\] {
+    display: none !important;
+  }
+  [data-name="Desktop - 25"] .left-\[765px\] {
+    display: none !important;
+  }
+  /* Feature checklist items wrap */
+  [data-name="Desktop - 25"] .gap-\[16px\].items-center > .gap-\[10px\] {
+    font-size: 12px !important;
+  }
+
+  /* Why Medbridge + Testimonials (Frame137) - w-[1440px] */
+  [data-name="Desktop - 25"] > .w-\[1440px\] {
+    width: 100% !important;
+    margin-top: 32px !important;
+  }
+
+  /* Why Medbridge section (Frame45) - w-[1280px] */
+  [data-name="Desktop - 25"] .w-\[1280px\]:not(.rounded-\[8px\]) {
+    width: 100% !important;
+    padding: 0 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Why Medbridge heading */
+  [data-name="Desktop - 25"] .text-\[32px\] {
+    font-size: 22px !important;
+  }
+
+  /* Why Medbridge 3-card container (Frame55) - has h-[231px] with absolute children */
+  [data-name="Desktop - 25"] .h-\[231px\].items-center {
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  /* Cards inside: remove absolute, make full width */
+  [data-name="Desktop - 25"] .h-\[231px\] > .w-\[411px\] {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+  }
+
+  /* Testimonials section padding */
+  [data-name="Desktop - 25"] .px-\[80px\].py-\[64px\] {
+    padding: 32px 16px !important;
+  }
+
+  /* Testimonials row - stack vertically */
+  [data-name="Desktop - 25"] .gap-\[24px\].items-center.w-full > .w-\[628px\] {
+    width: 100% !important;
+  }
+  /* Testimonial text */
+  [data-name="Desktop - 25"] .w-\[697px\] {
+    width: 100% !important;
+  }
+  /* Small testimonial cards - stack */
+  [data-name="Desktop - 25"] .h-\[637px\].w-\[628px\] {
+    width: 100% !important;
+    height: auto !important;
+  }
+  [data-name="Desktop - 25"] .h-\[637px\] .gap-\[24px\].grow.w-full {
+    flex-direction: column !important;
+  }
+
+  /* Fix the fixed-height testimonials+footer container */
+  [data-name="Desktop - 25"] .h-\[1548px\] {
+    height: auto !important;
+  }
+
+  /* ── FOOTER (shared across pages) ── */
+  /* The footer with beige bg, 618px height, 1440px width */
+  .h-\[618px\].w-\[1440px\],
+  .h-\[618px\].w-\[1440px\].overflow-clip {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 400px !important;
+    padding: 32px 20px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  /* Footer: hide all absolute children and rebuild layout */
+  .h-\[618px\].w-\[1440px\] > * {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+  }
+
+  /* Footer logo */
+  .h-\[618px\].w-\[1440px\] .w-\[228px\] {
+    width: 160px !important;
+  }
+
+  /* Footer column headings - make them block */
+  .h-\[618px\].w-\[1440px\] > p.text-\[24px\] {
+    font-size: 18px !important;
+    text-align: left !important;
+    margin-top: 16px !important;
+  }
+
+  /* Footer links */
+  .h-\[618px\].w-\[1440px\] > p.text-\[16px\] {
+    text-align: left !important;
+  }
+  .h-\[618px\].w-\[1440px\] > p.w-\[302px\] {
+    width: 100% !important;
+  }
+
+  /* Footer social links */
+  .h-\[618px\].w-\[1440px\] > a {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    display: inline-block !important;
+  }
+
+  /* Footer decorative image - hide */
+  .h-\[618px\].w-\[1440px\] > .left-\[977\.55px\] {
+    display: none !important;
+  }
+
+  /* Footer copyright row */
+  .h-\[618px\].w-\[1440px\] .left-\[80px\].top-\[548px\] {
+    margin-top: 20px !important;
+  }
+
+  /* Text sizing for 20px labels */
+  [data-name="Desktop - 25"] .text-\[20px\] {
+    font-size: 16px !important;
+  }
+
+
+  /* ────────────────────────────────────────────
+     RESULTS PAGE  (data-name="Desktop - 26")
+     ──────────────────────────────────────────── */
+
+  [data-name="Desktop - 26"] {
+    width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Main content wrapper - centers everything */
+  [data-name="Desktop - 26"] > .flex.justify-center > .w-\[1440px\] {
+    width: 100% !important;
+  }
+
+  /* Hero section (Frame222) - gradient background */
+  [data-name="Desktop - 26"] .rounded-bl-\[24px\].rounded-br-\[24px\] {
+    width: 100% !important;
+    padding: 24px 16px 24px 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Nav bar in hero */
+  [data-name="Desktop - 26"] .w-\[1264px\] {
+    width: 100% !important;
+  }
+  /* Hide tagline on results page */
+  [data-name="Desktop - 26"] .w-\[1264px\] .w-\[342px\] {
+    display: none !important;
+  }
+  [data-name="Desktop - 26"] .w-\[1264px\] .h-\[38px\].w-0 {
+    display: none !important;
+  }
+
+  /* Top 3 hospital cards (Frame177) - stack vertically */
+  [data-name="Desktop - 26"] .basis-0.grow.min-h-px.min-w-px.rounded-\[16px\] {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+  }
+  /* The flex parent of top 3 cards */
+  [data-name="Desktop - 26"] .gap-\[20px\].items-center.overflow-clip.w-full {
+    flex-wrap: wrap !important;
+  }
+
+  /* CTA section text */
+  [data-name="Desktop - 26"] .w-\[402px\] {
+    width: 100% !important;
+  }
+
+  /* Content section (Frame124) */
+  [data-name="Desktop - 26"] .top-\[1053px\] {
+    position: relative !important;
+    top: 0 !important;
+    left: auto !important;
+    padding: 24px 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Search & Filters (Frame83) */
+  [data-name="Desktop - 26"] .w-\[1280px\] {
+    width: 100% !important;
+  }
+
+  /* Section title */
+  [data-name="Desktop - 26"] .w-\[651px\] {
+    width: 100% !important;
+  }
+
+  /* Search box */
+  [data-name="Desktop - 26"] .w-\[420px\] {
+    width: 100% !important;
+  }
+
+  /* Filter bar - wrap filters and search vertically */
+  [data-name="Desktop - 26"] .justify-between.w-full > .gap-\[12px\] {
+    flex-wrap: wrap !important;
+  }
+  [data-name="Desktop - 26"] .items-center.justify-between.w-full {
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+  }
+
+  /* Hospital cards carousel (Frame80) */
+  [data-name="Desktop - 26"] .overflow-x-auto > .w-\[411px\] {
+    width: 80vw !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Why Medbridge cards container (h-[231px] with abs children) */
+  [data-name="Desktop - 26"] .h-\[231px\].items-center.justify-center {
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  [data-name="Desktop - 26"] .h-\[231px\] > .w-\[411px\] {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+  }
+
+  /* Footer on results page */
+  [data-name="Desktop - 26"] .w-\[1440px\].h-\[618px\] {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 400px !important;
+    padding: 32px 20px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+  [data-name="Desktop - 26"] .w-\[1440px\].h-\[618px\] > * {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+  }
+  [data-name="Desktop - 26"] .w-\[1440px\].h-\[618px\] > a {
+    display: inline-block !important;
+  }
+  /* Hide decorative footer image */
+  [data-name="Desktop - 26"] .w-\[1440px\] .left-\[977\.55px\] {
+    display: none !important;
+  }
+
+  /* Text sizing */
+  [data-name="Desktop - 26"] .text-\[32px\] {
+    font-size: 22px !important;
+  }
+  [data-name="Desktop - 26"] .text-\[28px\] {
+    font-size: 20px !important;
+  }
+
+
+  /* ────────────────────────────────────────────
+     ALL SERVICES PAGE (data-page="all-services")
+     ──────────────────────────────────────────── */
+
+  [data-page="all-services"] {
+    overflow-x: hidden !important;
+  }
+
+  /* Header - same pattern as homepage */
+  [data-page="all-services"] > .w-\[1264px\] {
+    width: 100% !important;
+    padding: 16px !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    margin-top: 16px !important;
+  }
+  /* Hide tagline */
+  [data-page="all-services"] > .w-\[1264px\] .w-\[342px\] {
+    display: none !important;
+  }
+  [data-page="all-services"] > .w-\[1264px\] .h-\[38px\].w-0 {
+    display: none !important;
+  }
+
+  /* Main content wrapper */
+  [data-page="all-services"] > .w-\[1440px\] {
+    width: 100% !important;
+    position: relative !important;
+    left: auto !important;
+    margin-top: 80px !important;
+  }
+  [data-page="all-services"] .w-\[1280px\] {
+    width: 100% !important;
+    padding: 0 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Page heading */
+  [data-page="all-services"] .text-\[32px\] {
+    font-size: 22px !important;
+  }
+  [data-page="all-services"] .w-\[697px\] {
+    width: 100% !important;
+  }
+  /* Heading row - stack */
+  [data-page="all-services"] .gap-\[48px\].items-center.w-full {
+    flex-direction: column !important;
+    gap: 12px !important;
+    align-items: flex-start !important;
+  }
+
+  /* Search bar section - stack toggle + dropdown vertically */
+  [data-page="all-services"] .gap-\[16px\].items-center.p-\[16px\].w-full {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  /* Toggle pills */
+  [data-page="all-services"] .w-\[380px\] {
+    width: 100% !important;
+  }
+  /* Hide divider between toggle and dropdown */
+  [data-page="all-services"] .h-\[46px\].w-0 {
+    display: none !important;
+  }
+
+  /* Tabs - horizontal scroll */
+  [data-page="all-services"] .sticky.top-0.bg-white.z-40 {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 12px 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Service cards: 2 per row instead of 4 */
+  [data-page="all-services"] .gap-\[24px\].items-center.w-full {
+    flex-wrap: wrap !important;
+  }
+  [data-page="all-services"] .w-\[302px\] {
+    width: calc(50% - 12px) !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Footer */
+  [data-page="all-services"] .w-\[1440px\].h-\[618px\] {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 400px !important;
+    padding: 32px 20px !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+  [data-page="all-services"] .w-\[1440px\].h-\[618px\] > * {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+  }
+  [data-page="all-services"] .w-\[1440px\].h-\[618px\] > a {
+    display: inline-block !important;
+  }
+  [data-page="all-services"] .w-\[1440px\] .left-\[977\.55px\] {
+    display: none !important;
+  }
+
+
+  /* ────────────────────────────────────────────
+     ADMIN PAGE (data-page="admin")
+     ──────────────────────────────────────────── */
+
+  /* Sidebar - hide on mobile */
+  [data-page="admin"] > .flex > .w-\[260px\] {
+    display: none !important;
+  }
+
+  /* Content area takes full width */
+  [data-page="admin"] > .flex > .flex-1 {
+    width: 100% !important;
+    padding: 16px !important;
+  }
+
+  /* Top bar - tighter padding */
+  [data-page="admin"] > .sticky,
+  [data-page="admin"] > .bg-white.border-b {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Stat cards: 2 columns instead of 4 */
+  [data-page="admin"] .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Search inputs: full width */
+  [data-page="admin"] .w-\[320px\] {
+    width: 100% !important;
+  }
+
+  /* Action button rows - wrap */
+  [data-page="admin"] .flex.items-center.justify-between {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  /* Modals - full width with margin */
+  [data-page="admin"] .w-\[600px\],
+  [data-page="admin"] .w-\[900px\] {
+    width: calc(100% - 32px) !important;
+    max-width: 100% !important;
+  }
+
+  /* Form grids: single column */
+  [data-page="admin"] .grid-cols-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+
+  /* ────────────────────────────────────────────
+     CART PANEL
+     ──────────────────────────────────────────── */
+
+  .w-\[400px\].shadow-2xl {
+    width: 100% !important;
+  }
+
+
+  /* ────────────────────────────────────────────
+     GLOBAL MOBILE UTILITIES
+     ──────────────────────────────────────────── */
+
+  /* Prevent any element wider than viewport */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Ensure SVG icons don't break things */
+  svg {
+    max-width: 100%;
+  }
+
+  /* Ensure text doesn't overflow */
+  .text-nowrap,
+  .whitespace-pre {
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+
+  /* But keep tab labels nowrap */
+  [data-page="all-services"] .sticky .text-nowrap,
+  [data-page="all-services"] .sticky .whitespace-pre {
+    white-space: nowrap !important;
+    word-break: normal !important;
+  }
+
+}
+
+/* Small phones (below 400px) */
+@media (max-width: 399px) {
+  /* Service cards: 1 per row on very small screens */
+  [data-page="all-services"] .w-\[302px\] {
+    width: 100% !important;
+  }
+
+  /* Top 3 text sizing */
+  [data-name="Desktop - 26"] .text-\[32px\] {
+    font-size: 18px !important;
+  }
+
+  [data-name="Desktop - 25"] .text-\[32px\] {
+    font-size: 18px !important;
+  }
+}

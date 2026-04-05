@@ -115,7 +115,7 @@ export default function CartPanel({ isOpen, onClose }: CartPanelProps) {
       />
       {/* Side Panel */}
       <div className="fixed inset-0 z-50 pointer-events-none">
-        <div className="absolute bg-[#fafcfc] h-screen overflow-hidden right-0 top-0 w-full sm:w-[400px] shadow-2xl pointer-events-auto flex flex-col">
+        <div className="absolute bg-[#fafcfc] h-screen overflow-hidden right-0 top-0 w-[400px] shadow-2xl pointer-events-auto flex flex-col">
           {/* Header */}
           <div className="bg-[rgba(100,182,172,0.1)] box-border content-stretch flex flex-col gap-[10px] items-start overflow-clip px-[24px] py-[20px] shrink-0">
             <div className="content-stretch flex items-center justify-between w-full">
@@ -238,7 +238,7 @@ export default function CartPanel({ isOpen, onClose }: CartPanelProps) {
                 </div>
 
                 {/* Name & Phone */}
-                <div className="flex flex-col sm:flex-row gap-[12px]">
+                <div className="flex gap-[12px]">
                   <div className="flex-1 bg-white h-[44px] relative rounded-[10px]">
                     <input
                       type="text"

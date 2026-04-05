@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { projectId, publicAnonKey } from "../utils/supabase/info";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { Hospital, LayoutDashboard, ShoppingCart, Users, Plus, Pencil, Trash2, X, Check, ChevronDown, ChevronUp, Eye, EyeOff, RefreshCw, Search, ArrowLeft } from "lucide-react";
 
 const API = `https://${projectId}.supabase.co/functions/v1/make-server-3079ee5f`;

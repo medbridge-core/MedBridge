@@ -24,7 +24,31 @@ import imgPngwingCom181 from "figma:asset/c4394d9fa56776a14cbb95906e4f1385718349
 import FormSection from "../components/FormSection";
 import { useCart } from "../components/CartContext";
 import { useCurrency } from "../components/CurrencyContext";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
+import { projectId, publicAnonKey } from "../utils/supabase/info";
+import { getServiceImage } from "../components/serviceImageMap";
+
+const HOME_API_BASE = `https://${projectId}.supabase.co/functions/v1/make-server-3079ee5f`;
+
+interface HomeServiceItem {
+  id: string;
+  title: string;
+  description: string;
+  price: string;
+  priceLabel: string;
+  category: string;
+  image: string;
+}
+
+// Fallback static services matching the original hardcoded cards
+const HOME_FALLBACK_SERVICES: HomeServiceItem[] = [
+  { id: "medical-visa", title: "Medical Visa", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "pre-arrival", image: getServiceImage("medical-visa") },
+  { id: "med-x-visa", title: "Med X Visa", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "pre-arrival", image: getServiceImage("med-x-visa") },
+  { id: "flight-tickets", title: "Flight Tickets", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "pre-arrival", image: getServiceImage("flight-tickets") },
+  { id: "accommodation", title: "Accommodation", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "on-arrival", image: getServiceImage("accommodation") },
+  { id: "airport-pickup-drop", title: "Airport Pickup & Drop", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "on-arrival", image: getServiceImage("airport-pickup-drop") },
+  { id: "translator", title: "Translator /- Day", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "post-treatment", image: getServiceImage("translator") },
+];
 
 function PriceText({ price }: { price: string }) {
   const { formatPrice } = useCurrency();
@@ -1057,20 +1081,102 @@ function Frame115() {
   );
 }
 
-function Frame95() {
+function DynamicHomeServiceCard({ service }: { service: HomeServiceItem }) {
   return (
-    <div className="content-stretch flex flex-col gap-[16px] items-start relative shrink-0 w-full">
-      <Frame112 />
-      <Frame115 />
+    <div className="basis-0 bg-white grow min-h-px min-w-px relative rounded-[10px] shrink-0" data-name="Service Card">
+      <div className="overflow-clip rounded-[inherit] size-full">
+        <div className="box-border content-stretch flex flex-col gap-[16px] items-start p-[20px] relative w-full">
+          <div className="content-stretch flex items-start justify-between relative shrink-0 w-full">
+            <div className="bg-[rgba(245,230,211,0.5)] overflow-clip relative rounded-[10px] shrink-0 size-[64px]">
+              <div className="absolute h-[49px] left-1/2 top-[calc(50%+0.15px)] translate-x-[-50%] translate-y-[-50%] w-[50px]">
+                <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={service.image} />
+              </div>
+            </div>
+            <HomeAddButton serviceId={service.title} title={service.title} category={service.category} image={service.image} price={service.price} />
+          </div>
+          <div className="content-stretch flex gap-[24px] items-start relative shrink-0 w-full">
+            <div className="basis-0 content-stretch flex flex-col gap-[8px] grow items-start min-h-px min-w-px relative shrink-0">
+              <div className="content-stretch flex flex-col gap-[4px] items-start relative shrink-0 w-full">
+                <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[18px] tracking-[0.36px] w-full">{service.title}</p>
+              </div>
+              <div className="content-stretch flex gap-[8px] items-center leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[16px] text-nowrap tracking-[0.32px] whitespace-pre">
+                <p className="font-['General_Sans:Regular',sans-serif] relative shrink-0">{service.priceLabel}</p>
+                <p className="font-['General_Sans:Medium',sans-serif] relative shrink-0"><PriceText price={service.price} /></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div aria-hidden="true" className="absolute border border-[rgba(30,58,95,0.08)] border-solid inset-0 pointer-events-none rounded-[10px]" />
     </div>
   );
 }
 
 function Frame96() {
+  const [homeServices, setHomeServices] = useState<HomeServiceItem[]>(HOME_FALLBACK_SERVICES);
+
+  useEffect(() => {
+    async function fetchHomeServices() {
+      try {
+        let res = await fetch(`${HOME_API_BASE}/services`, {
+          headers: { Authorization: `Bearer ${publicAnonKey}` },
+        });
+        let data = await res.json();
+
+        if (!data.services || data.services.length === 0) {
+          await fetch(`${HOME_API_BASE}/services/seed`, {
+            method: "POST",
+            headers: { Authorization: `Bearer ${publicAnonKey}` },
+          });
+          res = await fetch(`${HOME_API_BASE}/services`, {
+            headers: { Authorization: `Bearer ${publicAnonKey}` },
+          });
+          data = await res.json();
+        }
+
+        if (data.services && data.services.length > 0) {
+          const mapped: HomeServiceItem[] = data.services.map((s: any) => ({
+            id: s.id || s.image_key || s.title,
+            title: s.title,
+            description: s.description || "Comfy Ride from airport to hotel",
+            price: `₹${s.amount}`,
+            priceLabel: s.price_label || "From",
+            category: s.category,
+            image: getServiceImage(s.image_key || s.id),
+          }));
+          // Show first 6 services on homepage
+          setHomeServices(mapped.slice(0, 6));
+        }
+      } catch (e) {
+        console.error("Error fetching home services:", e);
+      }
+    }
+    fetchHomeServices();
+  }, []);
+
+  // Split into rows of 3
+  const row1 = homeServices.slice(0, 3);
+  const row2 = homeServices.slice(3, 6);
+
   return (
     <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
       <Frame22 />
-      <Frame95 />
+      <div className="content-stretch flex flex-col gap-[16px] items-start relative shrink-0 w-full">
+        {row1.length > 0 && (
+          <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
+            <div className="content-stretch flex gap-[16px] items-center relative shrink-0 w-full">
+              {row1.map((s) => <DynamicHomeServiceCard key={s.id} service={s} />)}
+            </div>
+          </div>
+        )}
+        {row2.length > 0 && (
+          <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
+            <div className="content-stretch flex gap-[16px] items-center relative shrink-0 w-full">
+              {row2.map((s) => <DynamicHomeServiceCard key={s.id} service={s} />)}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

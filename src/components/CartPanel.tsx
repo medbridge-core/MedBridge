@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useCart } from "./CartContext";
 import { useCurrency } from "./CurrencyContext";
 import { projectId, publicAnonKey } from "../utils/supabase/info";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 const API_BASE = `https://${projectId}.supabase.co/functions/v1/make-server-3079ee5f`;
 

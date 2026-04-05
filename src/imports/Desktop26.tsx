@@ -28,12 +28,12 @@ interface Hospital {
 
 function Frame59() {
   return (
-    <div className="content-stretch flex flex-col gap-[12px] items-start leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] w-[651px]">
-      <p className="font-[‘General_Sans:Light’,sans-serif] relative shrink-0 text-[0px] text-[32px] tracking-[-0.64px] w-full">
+    <div className="content-stretch flex flex-col gap-[12px] items-start leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] w-full max-w-[651px]">
+      <p className="font-[‘General_Sans:Light’,sans-serif] relative shrink-0 text-[0px] text-[24px] md:text-[32px] tracking-[-0.64px] w-full">
         <span>{`Other `}</span>
         <span className="font-[‘General_Sans:Medium’,sans-serif] not-italic">Hospitals</span>
       </p>
-      <p className="font-[‘General_Sans:Regular’,sans-serif] relative shrink-0 text-[20px] tracking-[0.4px] w-full">More hospitals based on your preferences</p>
+      <p className="font-[‘General_Sans:Regular’,sans-serif] relative shrink-0 text-[16px] md:text-[20px] tracking-[0.4px] w-full">More hospitals based on your preferences</p>
     </div>
   );
 }
@@ -57,9 +57,9 @@ function FilterDropdown({ label, options, selected, onSelect, onClear }: {
   }, []);
 
   return (
-    <div ref={ref} className="relative shrink-0">
+    <div ref={ref} className="relative shrink-0 w-full md:w-auto">
       <div
-        className={`box-border content-stretch flex gap-[6px] h-[44px] items-center justify-center overflow-clip px-[20px] py-[6px] relative rounded-[100px] shrink-0 cursor-pointer transition-colors ${
+        className={`box-border content-stretch flex gap-[6px] h-[44px] items-center justify-center overflow-clip px-[20px] py-[6px] relative rounded-[100px] shrink-0 cursor-pointer transition-colors w-full md:w-auto ${
           selected ? "bg-[#1e3a5f]" : "bg-[rgba(30,58,95,0.1)] hover:bg-[rgba(30,58,95,0.15)]"
         }`}
         onClick={() => setOpen(!open)}
@@ -78,7 +78,7 @@ function FilterDropdown({ label, options, selected, onSelect, onClear }: {
         </div>
       </div>
       {open && (
-        <div className="absolute top-[50px] left-0 bg-white rounded-[10px] border border-[rgba(26,54,93,0.1)] shadow-lg z-50 min-w-[180px] max-h-[250px] overflow-y-auto">
+        <div className="absolute top-[50px] left-0 right-0 md:left-0 md:right-auto bg-white rounded-[10px] border border-[rgba(26,54,93,0.1)] shadow-lg z-50 min-w-[180px] max-h-[250px] overflow-y-auto">
           {options.length === 0 ? (
             <div className="px-[16px] py-[12px] font-[‘General_Sans:Regular’,sans-serif] text-[#828283] text-[14px]">No options yet</div>
           ) : (
@@ -107,11 +107,11 @@ function Frame85({ filters, setFilters }: {
   const hasActiveFilters = filters.accreditation || filters.speciality || filters.location;
 
   return (
-    <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
-      <div className="flex h-[44px] items-center relative shrink-0">
+    <div className="content-stretch flex flex-col md:flex-row gap-[12px] items-start md:items-center relative shrink-0 w-full md:w-auto">
+      <div className="hidden md:flex h-[44px] items-center relative shrink-0">
         <p className="font-[‘General_Sans:Medium’,sans-serif] leading-[normal] not-italic relative shrink-0 text-[18px] text-[rgba(30,58,95,0.5)] text-nowrap whitespace-pre">Quick Filters:</p>
       </div>
-      <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
+      <div className="content-stretch flex flex-wrap gap-[12px] items-center relative shrink-0">
         <FilterDropdown
           label="Accreditation"
           options={[]}
@@ -166,8 +166,8 @@ function Frame63() {
 
 function Frame62() {
   return (
-    <div className="bg-white h-[51px] relative rounded-[8px] shrink-0 w-[420px]">
-      <div className="h-[51px] overflow-clip relative rounded-[inherit] w-[420px]">
+    <div className="bg-white h-[51px] relative rounded-[8px] shrink-0 w-full md:w-[420px]">
+      <div className="h-[51px] overflow-clip relative rounded-[inherit] w-full">
         <Frame63 />
       </div>
       <div aria-hidden="true" className="absolute border border-neutral-200 border-solid inset-0 pointer-events-none rounded-[8px]" />
@@ -180,7 +180,7 @@ function Frame81({ filters, setFilters }: {
   setFilters: (f: { accreditation: string | null; speciality: string | null; location: string | null }) => void;
 }) {
   return (
-    <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
+    <div className="content-stretch flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0 relative shrink-0 w-full">
       <Frame85 filters={filters} setFilters={setFilters} />
       <Frame62 />
     </div>
@@ -1083,12 +1083,12 @@ function Frame123() {
 
 function Frame80() {
   return (
-    <div className="flex gap-[24px] items-stretch relative shrink-0 w-full overflow-x-auto pb-[8px]" style={{ scrollbarWidth: "thin" }}>
-      <div className="shrink-0"><Frame32 /></div>
+    <div className="flex gap-[16px] md:gap-[24px] items-stretch relative shrink-0 w-full overflow-x-auto pb-[8px]" style={{ scrollbarWidth: "thin" }}>
+      <div className="shrink-0 w-[85vw] md:w-auto"><Frame32 /></div>
       {[...Array(2).keys()].map((_, i) => (
-        <div key={i} className="shrink-0"><Frame98 /></div>
+        <div key={i} className="shrink-0 w-[85vw] md:w-auto"><Frame98 /></div>
       ))}
-      <div className="shrink-0"><Frame123 /></div>
+      <div className="shrink-0 w-[85vw] md:w-auto"><Frame123 /></div>
     </div>
   );
 }
@@ -1101,7 +1101,7 @@ function Frame83() {
   });
 
   return (
-    <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-[1280px]">
+    <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full max-w-[1280px] px-4 md:px-[80px]">
       <Frame82 filters={filters} setFilters={setFilters} />
       <Frame80 />
     </div>
@@ -1111,7 +1111,7 @@ function Frame83() {
 function Frame10() {
   return (
     <div className="content-stretch flex flex-col gap-[16px] items-start justify-center relative shrink-0 w-full">
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[32px] text-nowrap tracking-[-0.64px] whitespace-pre">
+      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[24px] md:text-[32px] text-nowrap tracking-[-0.64px] whitespace-pre">
         <span className="font-['General_Sans:Regular',sans-serif]">Why</span>
         <span>{` Medbridge?`}</span>
       </p>
@@ -1142,11 +1142,11 @@ function Frame15() {
 function Frame16() {
   return (
     <div className="content-stretch flex flex-col gap-[8px] items-start leading-[0] not-italic relative shrink-0 text-[#1e3a5f] w-full">
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] relative shrink-0 text-[0px] text-[28px] tracking-[-0.56px] w-full">
+      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] relative shrink-0 text-[0px] text-[22px] md:text-[28px] tracking-[-0.56px] w-full">
         <span className="not-italic text-[rgba(30,58,95,0.7)]">Pick what you</span>
         <span>{` need`}</span>
       </p>
-      <div className="font-['General_Sans:Regular',sans-serif] leading-[normal] relative shrink-0 text-[16px] tracking-[0.32px] w-full">
+      <div className="font-['General_Sans:Regular',sans-serif] leading-[normal] relative shrink-0 text-[14px] md:text-[16px] tracking-[0.32px] w-full">
         <p className="mb-0">{`Only pick the services what you need and `}</p>
         <p>no unnecessary addons</p>
       </div>
@@ -1165,7 +1165,7 @@ function Frame17() {
 
 function Frame12() {
   return (
-    <div className="absolute bg-[rgba(100,182,172,0.1)] box-border content-stretch flex flex-col gap-[10px] items-start left-0 overflow-clip p-[32px] rounded-[16px] top-0 w-[411px]">
+    <div className="bg-[rgba(100,182,172,0.1)] box-border content-stretch flex flex-col gap-[10px] items-start overflow-clip p-[16px] md:p-[32px] rounded-[16px] w-full">
       <Frame17 />
     </div>
   );
@@ -1194,11 +1194,11 @@ function Frame20() {
 function Frame21() {
   return (
     <div className="content-stretch flex flex-col gap-[8px] items-start leading-[0] not-italic relative shrink-0 text-[#1e3a5f] w-full">
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] relative shrink-0 text-[0px] text-[28px] tracking-[-0.56px] w-full">
+      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] relative shrink-0 text-[0px] text-[22px] md:text-[28px] tracking-[-0.56px] w-full">
         <span className="not-italic text-[rgba(30,58,95,0.7)]">Transparent</span>
         <span>{` Pricing`}</span>
       </p>
-      <div className="font-['General_Sans:Regular',sans-serif] leading-[normal] relative shrink-0 text-[16px] tracking-[0.32px] w-full">
+      <div className="font-['General_Sans:Regular',sans-serif] leading-[normal] relative shrink-0 text-[14px] md:text-[16px] tracking-[0.32px] w-full">
         <p className="mb-0">{`Only pick the services what you need and `}</p>
         <p>no unnecessary addons</p>
       </div>
@@ -1217,7 +1217,7 @@ function Frame22() {
 
 function Frame13() {
   return (
-    <div className="absolute bg-[rgba(100,182,172,0.1)] box-border content-stretch flex flex-col gap-[10px] items-start left-[435px] overflow-clip p-[32px] rounded-[16px] top-0 w-[411px]">
+    <div className="bg-[rgba(100,182,172,0.1)] box-border content-stretch flex flex-col gap-[10px] items-start overflow-clip p-[16px] md:p-[32px] rounded-[16px] w-full">
       <Frame22 />
     </div>
   );
@@ -1246,11 +1246,11 @@ function Frame23() {
 function Frame24() {
   return (
     <div className="content-stretch flex flex-col gap-[8px] items-start leading-[0] not-italic relative shrink-0 text-[#1e3a5f] w-full">
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] relative shrink-0 text-[0px] text-[28px] tracking-[-0.56px] w-full">
+      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] relative shrink-0 text-[0px] text-[22px] md:text-[28px] tracking-[-0.56px] w-full">
         <span className="text-[rgba(30,58,95,0.7)]">Verified</span>
         <span>{` Partners`}</span>
       </p>
-      <div className="font-['General_Sans:Regular',sans-serif] leading-[normal] relative shrink-0 text-[16px] tracking-[0.32px] w-full">
+      <div className="font-['General_Sans:Regular',sans-serif] leading-[normal] relative shrink-0 text-[14px] md:text-[16px] tracking-[0.32px] w-full">
         <p className="mb-0">{`Only pick the services what you need and `}</p>
         <p>no unnecessary addons</p>
       </div>
@@ -1269,7 +1269,7 @@ function Frame25() {
 
 function Frame14() {
   return (
-    <div className="absolute bg-[rgba(100,182,172,0.1)] box-border content-stretch flex flex-col gap-[10px] items-start left-[869px] overflow-clip p-[32px] rounded-[16px] top-0 w-[411px]">
+    <div className="bg-[rgba(100,182,172,0.1)] box-border content-stretch flex flex-col gap-[10px] items-start overflow-clip p-[16px] md:p-[32px] rounded-[16px] w-full">
       <Frame25 />
     </div>
   );
@@ -1277,7 +1277,7 @@ function Frame14() {
 
 function Frame18() {
   return (
-    <div className="box-border content-stretch flex gap-[10px] h-[231px] items-center justify-center px-[10px] py-0 relative shrink-0">
+    <div className="box-border content-stretch grid grid-cols-1 md:grid-cols-3 gap-[20px] md:gap-[10px] items-start md:items-center justify-center px-0 md:px-[10px] py-0 relative shrink-0 w-full">
       <Frame12 />
       <Frame13 />
       <Frame14 />
@@ -1287,7 +1287,7 @@ function Frame18() {
 
 function Frame84() {
   return (
-    <div className="content-stretch flex flex-col gap-[32px] items-start justify-center relative shrink-0 w-[1280px]">
+    <div className="content-stretch flex flex-col gap-[32px] items-start justify-center relative shrink-0 w-full max-w-[1280px] px-4 md:px-[80px]">
       <Frame10 />
       <Frame18 />
     </div>
@@ -1414,27 +1414,37 @@ function Frame29() {
 
 function Frame11() {
   return (
-    <div className="bg-[rgba(245,230,211,0.5)] h-[618px] overflow-clip relative shrink-0 w-[1440px]">
+    <div className="bg-[rgba(245,230,211,0.5)] min-h-[618px] h-auto overflow-x-hidden relative shrink-0 w-full">
       <Frame2 />
       <Frame19 />
-      <p className="absolute font-['General_Sans:Medium',sans-serif] leading-[normal] left-[135.5px] not-italic text-[24px] text-black text-center text-nowrap top-[172px] tracking-[0.48px] translate-x-[-50%] whitespace-pre">Company</p>
-      <p className="absolute font-['General_Sans:Medium',sans-serif] leading-[normal] left-[492.5px] not-italic text-[24px] text-black text-center text-nowrap top-[172px] tracking-[0.48px] translate-x-[-50%] whitespace-pre">For Customers</p>
-      <p className="absolute font-['General_Sans:Medium',sans-serif] leading-[normal] left-[825px] not-italic text-[24px] text-black text-center text-nowrap top-[172px] tracking-[0.48px] translate-x-[-50%] whitespace-pre">For Professional</p>
-      <p className="absolute font-['General_Sans:Medium',sans-serif] leading-[normal] left-[1058px] not-italic text-[24px] text-black text-nowrap top-[172px] tracking-[0.48px] whitespace-pre">Socials</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[80px] not-italic text-[#1e3a5f] text-[16px] top-[231px] tracking-[0.32px] w-[302px]">About Us</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[80px] not-italic text-[#1e3a5f] text-[16px] top-[269px] tracking-[0.32px] w-[302px]">{`Terms & Conditions`}</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[80px] not-italic text-[#1e3a5f] text-[16px] top-[307px] tracking-[0.32px] w-[302px]">Privacy Policy</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[80px] not-italic text-[#1e3a5f] text-[16px] top-[345px] tracking-[0.32px] w-[302px]">Careers</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[231px] tracking-[0.32px] w-[302px]">Medbridge Reviews</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[732px] not-italic text-[#1e3a5f] text-[16px] top-[231px] tracking-[0.32px] w-[302px]">Register as a Professional</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[269px] tracking-[0.32px] w-[302px]">Services</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[307px] tracking-[0.32px] w-[302px]">Package Plan</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[345px] tracking-[0.32px] w-[302px]">AI Match with Hospitals</p>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 px-4 md:px-[80px] pt-[180px] md:pt-[172px]">
+        <div>
+          <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic text-[20px] md:text-[24px] text-black text-left md:text-center tracking-[0.48px] whitespace-pre mb-[40px] md:mb-[60px]">Company</p>
+          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px] mb-[20px]">About Us</p>
+          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px] mb-[20px]">{`Terms & Conditions`}</p>
+          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px] mb-[20px]">Privacy Policy</p>
+          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px]">Careers</p>
+        </div>
+        <div>
+          <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic text-[20px] md:text-[24px] text-black text-left md:text-center tracking-[0.48px] whitespace-pre mb-[40px] md:mb-[60px]">For Customers</p>
+          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px] mb-[20px]">Medbridge Reviews</p>
+          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px] mb-[20px]">Services</p>
+          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px] mb-[20px]">Package Plan</p>
+          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px]">AI Match with Hospitals</p>
+        </div>
+        <div>
+          <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic text-[20px] md:text-[24px] text-black text-left md:text-center tracking-[0.48px] whitespace-pre mb-[40px] md:mb-[60px]">For Professional</p>
+          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px]">Register as a Professional</p>
+        </div>
+        <div>
+          <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic text-[20px] md:text-[24px] text-black text-left tracking-[0.48px] whitespace-pre mb-[40px] md:mb-[60px]">Socials</p>
+        </div>
+      </div>
       <Frame26 />
       <Frame27 />
       <Frame28 />
       <Frame29 />
-      <div className="absolute flex h-[calc(1px*((var(--transform-inner-width)*0.8660253882408142)+(var(--transform-inner-height)*0.4999999701976776)))] items-center justify-center left-[977.55px] top-[263.74px] w-[calc(1px*((var(--transform-inner-height)*0.8660253882408142)+(var(--transform-inner-width)*0.4999999701976776)))]" style={{ "--transform-inner-width": "291.078125", "--transform-inner-height": "465.203125" } as React.CSSProperties}>
+      <div className="hidden md:flex absolute h-[calc(1px*((var(--transform-inner-width)*0.8660253882408142)+(var(--transform-inner-height)*0.4999999701976776)))] items-center justify-center left-[977.55px] top-[263.74px] w-[calc(1px*((var(--transform-inner-height)*0.8660253882408142)+(var(--transform-inner-width)*0.4999999701976776)))]" style={{ "--transform-inner-width": "291.078125", "--transform-inner-height": "465.203125" } as React.CSSProperties}>
         <div className="flex-none rotate-[300deg]">
           <div className="h-[465.215px] relative w-[291.091px]" data-name="pngwing.com (18) 1">
             <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgPngwingCom181} />
@@ -1501,7 +1511,7 @@ function Frame3() {
   return (
     <div className="content-stretch flex gap-[16px] items-center relative shrink-0">
       <Frame1 />
-      <div className="flex h-[calc(1px*((var(--transform-inner-width)*1)+(var(--transform-inner-height)*0)))] items-center justify-center relative shrink-0 w-[calc(1px*((var(--transform-inner-height)*1)+(var(--transform-inner-width)*0)))]" style={{ "--transform-inner-width": "38", "--transform-inner-height": "0" } as React.CSSProperties}>
+      <div className="hidden md:flex h-[calc(1px*((var(--transform-inner-width)*1)+(var(--transform-inner-height)*0)))] items-center justify-center relative shrink-0 w-[calc(1px*((var(--transform-inner-height)*1)+(var(--transform-inner-width)*0)))]" style={{ "--transform-inner-width": "38", "--transform-inner-height": "0" } as React.CSSProperties}>
         <div className="flex-none rotate-[90deg]">
           <div className="h-0 relative w-[38px]">
             <div className="absolute bottom-0 left-0 right-0 top-[-1px]">
@@ -1512,7 +1522,7 @@ function Frame3() {
           </div>
         </div>
       </div>
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[0px] text-[14px] text-white tracking-[-0.28px] w-[342px] whitespace-pre-wrap">
+      <p className="hidden md:block font-[‘General_Sans:Medium’,sans-serif] leading-[normal] not-italic relative shrink-0 text-[0px] text-[14px] text-white tracking-[-0.28px] w-[342px] whitespace-pre-wrap">
         <span>
           {`Bridging  patients worldwide with `}
           <br aria-hidden="true" />
@@ -1659,7 +1669,7 @@ function Frame8({ onCartClick }: { onCartClick?: () => void }) {
 
 function Frame30({ onCartClick }: { onCartClick?: () => void }) {
   return (
-    <div className="content-stretch flex items-center justify-between relative shrink-0 w-[1264px]">
+    <div className="content-stretch flex items-center justify-between relative shrink-0 w-full max-w-[1264px] px-4 md:px-0">
       <Frame3 />
       <Frame8 onCartClick={onCartClick} />
     </div>
@@ -1697,7 +1707,7 @@ function Group() {
 function Frame206() {
   return (
     <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-      <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[32px] text-nowrap text-white tracking-[-0.64px] whitespace-pre">
+      <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[24px] md:text-[32px] text-nowrap text-white tracking-[-0.64px] whitespace-pre">
         <span className="font-['General_Sans:Medium',sans-serif]">{`Top 3 `}</span>
         <span className="font-['General_Sans:Medium',sans-serif]">AI Matched</span>
         <span className="font-['General_Sans:Medium',sans-serif]"> </span>Hospitals for You
@@ -2855,7 +2865,7 @@ function Frame192({ hospital }: { hospital?: Hospital }) {
 
 function Frame177({ hospitals }: { hospitals?: Hospital[] }) {
   return (
-    <div className="content-stretch flex gap-[20px] items-center overflow-clip relative shrink-0 w-full">
+    <div className="content-stretch grid grid-cols-1 md:grid-cols-3 gap-[20px] items-start overflow-clip relative shrink-0 w-full">
       <Frame191 hospital={hospitals?.[0]} />
       <Frame190 hospital={hospitals?.[1]} />
       <Frame192 hospital={hospitals?.[2]} />
@@ -2924,15 +2934,15 @@ function Frame196() {
 function Frame139() {
   return (
     <div className="content-stretch flex gap-[4px] items-center relative shrink-0">
-      <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[16px] text-nowrap text-white tracking-[-0.32px] whitespace-pre">Book your visa, stay, transport and other essentials to plan your visit smoothly.</p>
+      <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[14px] md:text-[16px] text-white tracking-[-0.32px] whitespace-pre-wrap md:whitespace-pre">Book your visa, stay, transport and other essentials to plan your visit smoothly.</p>
     </div>
   );
 }
 
 function Frame141() {
   return (
-    <div className="content-stretch flex flex-col gap-[4px] items-start relative shrink-0 w-[402px]">
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[20px] text-nowrap text-white tracking-[-0.4px] whitespace-pre">{`Step 2: Need help setting up your travel & support services?`}</p>
+    <div className="content-stretch flex flex-col gap-[4px] items-start relative shrink-0 w-full md:w-[402px]">
+      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[18px] md:text-[20px] text-white tracking-[-0.4px] whitespace-pre-wrap md:whitespace-pre">{`Step 2: Need help setting up your travel & support services?`}</p>
       <Frame139 />
     </div>
   );
@@ -2980,7 +2990,7 @@ function Frame176() {
 
 function Frame144() {
   return (
-    <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
+    <div className="content-stretch flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0 relative shrink-0 w-full">
       <Frame142 />
       <Frame176 />
     </div>
@@ -2991,7 +3001,7 @@ function Frame137() {
   return (
     <div className="bg-[rgba(255,255,255,0.07)] relative rounded-[8px] shrink-0 w-full">
       <div className="overflow-clip rounded-[inherit] size-full">
-        <div className="box-border content-stretch flex flex-col gap-[12px] items-start px-[20px] py-[24px] relative w-full">
+        <div className="box-border content-stretch flex flex-col gap-[12px] items-start px-4 md:px-[20px] py-[24px] relative w-full">
           <Frame144 />
         </div>
       </div>
@@ -3010,7 +3020,7 @@ function Frame210({ hospitals }: { hospitals?: Hospital[] }) {
 
 function Frame222({ hospitals, onCartClick }: { hospitals?: Hospital[]; onCartClick?: () => void }) {
   return (
-    <div className="absolute box-border content-stretch flex flex-col gap-[56px] items-center justify-center left-0 overflow-clip pb-[40px] pt-[64px] px-[80px] rounded-bl-[24px] rounded-br-[24px] top-0 w-screen" style={{ background: 'linear-gradient(180deg, #1E3A5F 0%, #2C5F8D 100%)' }}>
+    <div className="absolute box-border content-stretch flex flex-col gap-[32px] md:gap-[56px] items-center justify-center left-0 overflow-x-hidden pb-[20px] md:pb-[40px] pt-[32px] md:pt-[64px] px-4 md:px-[80px] rounded-bl-[24px] rounded-br-[24px] top-0 w-full" style={{ background: 'linear-gradient(180deg, #1E3A5F 0%, #2C5F8D 100%)' }}>
       <Frame30 onCartClick={onCartClick} />
       <Frame210 hospitals={hospitals} />
     </div>
@@ -3020,11 +3030,11 @@ function Frame222({ hospitals, onCartClick }: { hospitals?: Hospital[]; onCartCl
 export default function Desktop({ hospitals = [], onCartClick }: { hospitals?: Hospital[]; onCartClick?: () => void }) {
   console.log("Desktop26 - hospitals prop:", hospitals);
   console.log("Desktop26 - first 3 hospitals:", hospitals.slice(0, 3));
-  
+
   return (
-    <div className="bg-neutral-50 relative w-full min-h-screen" data-name="Desktop - 26">
+    <div className="bg-neutral-50 relative w-full min-h-screen overflow-x-hidden" data-name="Desktop - 26">
       <div className="flex justify-center relative">
-        <div className="relative w-[1440px] min-h-screen">
+        <div className="relative w-full max-w-[1440px] min-h-screen">
           <Frame124 />
         </div>
         <Frame222 hospitals={hospitals} onCartClick={onCartClick} />

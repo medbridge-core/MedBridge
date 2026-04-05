@@ -120,8 +120,8 @@ function ServiceCard({ item }: { item: ServiceItem }) {
   const inCart = isInCart(item.title);
 
   return (
-    <div className="bg-white relative rounded-[10px] shrink-0 w-[302px]">
-      <div className="box-border content-stretch flex flex-col gap-[10px] items-start overflow-clip p-[24px] relative rounded-[inherit] w-[302px]">
+    <div className="bg-white relative rounded-[10px] shrink-0 w-full">
+      <div className="box-border content-stretch flex flex-col gap-[10px] items-start overflow-clip p-[24px] relative rounded-[inherit] w-full">
         <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
           <div className="content-stretch flex items-start justify-between relative shrink-0 w-full">
             <div className="bg-[rgba(245,230,211,0.5)] overflow-clip relative rounded-[10px] shrink-0 size-[80px]">
@@ -381,9 +381,9 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
   const categoryTabs = tabs.filter((t) => t.key !== "all") as { key: CategoryKey; label: string; sectionLabel: string }[];
   
   return (
-    <div className="bg-white relative size-full overflow-y-auto">
+    <div className="bg-white relative w-full overflow-x-hidden overflow-y-auto">
       {/* Header */}
-      <div className="absolute content-stretch flex items-center justify-between left-[80px] top-[63.85px] w-[1264px]">
+      <div className="relative content-stretch flex flex-col md:flex-row items-center md:items-start justify-between w-full max-w-[1264px] px-4 md:px-[80px] py-4 md:py-0 md:top-[63.85px] md:left-[80px]">
         <div className="content-stretch flex gap-[16px] items-center relative shrink-0">
           <Link to="/" className="h-[35.264px] relative shrink-0 w-[157.694px] no-underline">
             <div className="h-[35.264px] relative shrink-0 w-[157.694px]">
@@ -417,7 +417,7 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
               </div>
             </div>
           </div>
-          <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[0px] text-[14px] tracking-[-0.28px] w-[342px] whitespace-pre-wrap">
+          <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[0px] text-[14px] tracking-[-0.28px] w-[342px] whitespace-pre-wrap hidden md:block">
             <span>{`Bridging  patients worldwide with `}<br aria-hidden="true" /></span>India's best doctors<span className="text-[#8bbcdd]"> </span>
           </p>
         </div>
@@ -442,25 +442,25 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
       </div>
 
       {/* Main content */}
-      <div className="content-stretch flex flex-col items-center left-0 mt-[172.15px] w-[1440px]">
-        <div className="content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-[1280px]">
+      <div className="content-stretch flex flex-col items-center left-0 mt-[100px] md:mt-[172.15px] w-full max-w-[1440px] mx-auto">
+        <div className="content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-full max-w-[1280px] px-4 md:px-[80px]">
           {/* Header text */}
           <div className="content-stretch flex flex-col items-start justify-center relative shrink-0 w-full">
-            <div className="content-stretch flex gap-[48px] items-center relative shrink-0 w-full">
-              <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[32px] text-nowrap tracking-[-0.64px] whitespace-pre">
+            <div className="content-stretch flex flex-col md:flex-row gap-[24px] md:gap-[48px] items-start md:items-center relative shrink-0 w-full">
+              <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[24px] md:text-[32px] text-nowrap md:text-left tracking-[-0.64px] whitespace-pre-wrap md:whitespace-pre">
                 <span className="font-['General_Sans:Regular',sans-serif]">Just looking for</span>
                 <span className="font-['General_Sans:Semibold',sans-serif]"> </span>services?
               </p>
-              <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic opacity-60 relative shrink-0 text-[#1e3a5f] text-[20px] tracking-[0.4px] w-[697px]">We remove the uncertainty of agency-based bookings — offering transparent, flexible, and verified service options designed around you.</p>
+              <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic opacity-60 relative shrink-0 text-[#1e3a5f] text-[16px] md:text-[20px] tracking-[0.4px] w-full md:w-[697px]">We remove the uncertainty of agency-based bookings — offering transparent, flexible, and verified service options designed around you.</p>
             </div>
           </div>
 
           {/* Search bar */}
           <div className="bg-[#f9f9f9] relative rounded-[12px] shrink-0 w-full">
-            <div className="flex flex-row items-center size-full">
-              <div className="box-border content-stretch flex gap-[16px] items-center p-[16px] relative w-full">
+            <div className="flex flex-col md:flex-row items-start md:items-center size-full">
+              <div className="box-border content-stretch flex flex-col md:flex-row gap-[16px] items-start md:items-center p-[16px] relative w-full">
                 {/* Toggle - moved to LHS */}
-                <div className="bg-[#f0f0f0] content-stretch flex items-center justify-between relative rounded-[1000px] shrink-0 w-[380px]">
+                <div className="bg-[#f0f0f0] content-stretch flex items-center justify-between relative rounded-[1000px] shrink-0 w-full md:w-[380px]">
                   <div className="basis-0 bg-[#1e3a5f] grow h-[48px] min-h-px min-w-px relative rounded-[100px] shrink-0">
                     <div className="flex flex-row items-center justify-center overflow-clip rounded-[inherit] size-full">
                       <div className="box-border content-stretch flex gap-[10px] h-[48px] items-center justify-center px-[16px] py-[11px] relative w-full">
@@ -476,11 +476,11 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
                     </div>
                   </div>
                 </div>
-                <div className="flex h-[46px] items-center justify-center relative shrink-0 w-0" style={{ "--transform-inner-width": "46", "--transform-inner-height": "0" } as React.CSSProperties}>
+                <div className="hidden md:flex h-[46px] items-center justify-center relative shrink-0 w-0" style={{ "--transform-inner-width": "46", "--transform-inner-height": "0" } as React.CSSProperties}>
                   <div className="flex-none rotate-[90deg]"><div className="h-0 relative w-[46px]"><div className="absolute bottom-0 left-0 right-0 top-[-1px]"><svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 46 1"><line opacity="0.06" stroke="black" x2="46" y1="0.5" y2="0.5" /></svg></div></div></div>
                 </div>
                 {/* Hospital dropdown with nested city filter */}
-                <div className="content-stretch flex gap-[16px] items-center relative grow">
+                <div className="content-stretch flex gap-[16px] items-center relative w-full md:grow">
                   <HospitalSearchDropdown
                     hospitals={hospitals}
                     cities={cities}
@@ -496,23 +496,25 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
           </div>
 
           {/* Tabs - sticky on scroll */}
-          <div className="content-stretch flex gap-[12px] items-center relative shrink-0 sticky top-0 bg-white z-40 py-[12px] -my-[12px]">
-            {tabs.map((tab) => (
-              <div
-                key={tab.key}
-                className="relative shrink-0 cursor-pointer"
-                onClick={() => setActiveTab(tab.key)}
-              >
-                <div className="box-border content-stretch flex gap-[10px] items-center justify-center overflow-clip px-[24px] py-[11px] relative rounded-[inherit]">
-                  <p className={`font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[18px] text-nowrap whitespace-pre ${activeTab === tab.key ? "text-[#1e3a5f]" : "text-[#98a1ae]"}`}>
-                    {tab.label}
-                  </p>
+          <div className="content-stretch flex gap-[12px] items-center relative shrink-0 sticky top-0 bg-white z-40 py-[12px] -my-[12px] overflow-x-auto w-full">
+            <div className="flex gap-[12px] whitespace-nowrap">
+              {tabs.map((tab) => (
+                <div
+                  key={tab.key}
+                  className="relative shrink-0 cursor-pointer"
+                  onClick={() => setActiveTab(tab.key)}
+                >
+                  <div className="box-border content-stretch flex gap-[10px] items-center justify-center overflow-clip px-[24px] py-[11px] relative rounded-[inherit]">
+                    <p className={`font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[18px] text-nowrap whitespace-pre ${activeTab === tab.key ? "text-[#1e3a5f]" : "text-[#98a1ae]"}`}>
+                      {tab.label}
+                    </p>
+                  </div>
+                  {activeTab === tab.key && (
+                    <div aria-hidden="true" className="absolute border-[#1e3a5f] border-[0px_0px_2px] border-solid inset-0 pointer-events-none" />
+                  )}
                 </div>
-                {activeTab === tab.key && (
-                  <div aria-hidden="true" className="absolute border-[#1e3a5f] border-[0px_0px_2px] border-solid inset-0 pointer-events-none" />
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Service cards */}
@@ -523,39 +525,30 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
                 const catServices = services.filter((s) => s.category === cat.key);
                 if (catServices.length === 0) return null;
                 const isAddOns = cat.key === "post-treatment";
-                const rows = chunkArray(catServices, 4);
                 return (
                   <div key={cat.key} className={`content-stretch flex flex-col ${isAddOns ? "gap-[24px]" : "gap-[16px]"} items-start relative shrink-0 w-full`}>
-                    <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#768293] text-[16px] tracking-[1.6px] uppercase w-full">
+                    <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#768293] text-[14px] md:text-[16px] tracking-[1.6px] uppercase w-full">
                       {cat.sectionLabel}
                     </p>
-                    {rows.map((row, rowIdx) => (
-                      <div key={rowIdx} className="content-stretch flex flex-col items-start relative shrink-0 w-full">
-                        <div className="content-stretch flex gap-[24px] items-center relative shrink-0 w-full">
-                          {row.map((item, i) => (
-                            <ServiceCard key={`${item.title}-${i}`} item={item} />
-                          ))}
-                        </div>
-                      </div>
-                    ))}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-[24px] w-full">
+                      {catServices.map((item, i) => (
+                        <ServiceCard key={`${item.title}-${i}`} item={item} />
+                      ))}
+                    </div>
                   </div>
                 );
               })
             ) : (
               // Single category view
               <div className="content-stretch flex flex-col gap-[16px] items-start relative shrink-0 w-full">
-                <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#768293] text-[16px] tracking-[1.6px] uppercase w-full">
+                <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#768293] text-[14px] md:text-[16px] tracking-[1.6px] uppercase w-full">
                   {tabs.find((t) => t.key === activeTab)?.sectionLabel}
                 </p>
-                {chunkArray(filteredServices, 4).map((row, rowIdx) => (
-                  <div key={rowIdx} className="content-stretch flex flex-col items-start relative shrink-0 w-full">
-                    <div className="content-stretch flex gap-[24px] items-center relative shrink-0 w-full">
-                      {row.map((item, i) => (
-                        <ServiceCard key={`${item.title}-${i}`} item={item} />
-                      ))}
-                    </div>
-                  </div>
-                ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-[24px] w-full">
+                  {filteredServices.map((item, i) => (
+                    <ServiceCard key={`${item.title}-${i}`} item={item} />
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -563,8 +556,8 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
       </div>
 
       {/* Footer */}
-      <div className="absolute bg-[rgba(245,230,211,0.5)] h-[618px] left-1/2 overflow-clip top-[2091px] translate-x-[-50%] w-[1440px]">
-        <div className="absolute content-stretch flex gap-[23.133px] items-center left-[80px] top-[64px]">
+      <div className="relative bg-[rgba(245,230,211,0.5)] min-h-[300px] md:min-h-[618px] overflow-clip w-full mt-[60px] md:mt-0">
+        <div className="relative content-stretch flex gap-[23.133px] items-center px-4 md:px-[80px] py-8 md:py-[64px]">
           <div className="h-[50.986px] relative shrink-0 w-[228px]">
             <div className="absolute left-[17.06px] size-[17.681px] top-0"><svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 18 18"><path d={svgPaths.p26d7b780} fill="#FF6F61" /></svg></div>
             <div className="absolute left-[34.74px] size-[17.681px] top-[17.68px]"><svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 18 18"><path d={svgPaths.p2e33c100} fill="#64B6AC" /></svg></div>
@@ -573,41 +566,68 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
             <p className="absolute font-['Urbanist:Medium',sans-serif] font-medium leading-[normal] left-[60.65px] text-[#1e3a5f] text-[35.043px] text-nowrap top-[1.97px] tracking-[-0.7009px] whitespace-pre">medbridge</p>
           </div>
         </div>
-        <div className="absolute content-stretch flex gap-[12px] items-center left-[80px] top-[548px]">
-          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[16px] text-center text-nowrap tracking-[0.32px] whitespace-pre">Copyrights © 2025️</p>
-          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[16px] text-center text-nowrap tracking-[0.32px] whitespace-pre ml-[16px]">Medbridge</p>
-          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[16px] text-center text-nowrap tracking-[0.32px] whitespace-pre ml-[16px]">All rights reserved</p>
+        <div className="relative content-stretch flex flex-col md:flex-row gap-[12px] items-start md:items-center px-4 md:px-[80px] py-[24px] md:py-0">
+          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[14px] md:text-[16px] text-left md:text-center text-nowrap tracking-[0.32px] whitespace-pre">Copyrights © 2025️</p>
+          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[14px] md:text-[16px] text-left md:text-center text-nowrap tracking-[0.32px] whitespace-pre md:ml-[16px]">Medbridge</p>
+          <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[14px] md:text-[16px] text-left md:text-center text-nowrap tracking-[0.32px] whitespace-pre md:ml-[16px]">All rights reserved</p>
         </div>
-        <p className="absolute font-['General_Sans:Medium',sans-serif] leading-[normal] left-[135.5px] not-italic text-[24px] text-black text-center text-nowrap top-[172px] tracking-[0.48px] translate-x-[-50%] whitespace-pre">Company</p>
-        <p className="absolute font-['General_Sans:Medium',sans-serif] leading-[normal] left-[492.5px] not-italic text-[24px] text-black text-center text-nowrap top-[172px] tracking-[0.48px] translate-x-[-50%] whitespace-pre">For Customers</p>
-        <p className="absolute font-['General_Sans:Medium',sans-serif] leading-[normal] left-[825px] not-italic text-[24px] text-black text-center text-nowrap top-[172px] tracking-[0.48px] translate-x-[-50%] whitespace-pre">For Professional</p>
-        <p className="absolute font-['General_Sans:Medium',sans-serif] leading-[normal] left-[1058px] not-italic text-[24px] text-black text-nowrap top-[172px] tracking-[0.48px] whitespace-pre">Socials</p>
-        <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[80px] not-italic text-[#1e3a5f] text-[16px] top-[231px] tracking-[0.32px] w-[302px]">About Us</p>
-        <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[80px] not-italic text-[#1e3a5f] text-[16px] top-[269px] tracking-[0.32px] w-[302px]">{`Terms & Conditions`}</p>
-        <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[80px] not-italic text-[#1e3a5f] text-[16px] top-[307px] tracking-[0.32px] w-[302px]">Privacy Policy</p>
-        <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[80px] not-italic text-[#1e3a5f] text-[16px] top-[345px] tracking-[0.32px] w-[302px]">Careers</p>
-        <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[231px] tracking-[0.32px] w-[302px]">Medbridge Reviews</p>
-        <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[732px] not-italic text-[#1e3a5f] text-[16px] top-[231px] tracking-[0.32px] w-[302px]">Register as a Professional</p>
-        <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[269px] tracking-[0.32px] w-[302px]">Services</p>
-        <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[307px] tracking-[0.32px] w-[302px]">Package Plan</p>
-        <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[345px] tracking-[0.32px] w-[302px]">AI Match with Hospitals</p>
-        <a href="https://www.linkedin.com/company/medbridge-life/" target="_blank" rel="noopener noreferrer" className="absolute left-[1058px] rounded-[100px] size-[48px] top-[231px] cursor-pointer hover:opacity-80 transition-opacity">
-          <div aria-hidden="true" className="absolute inset-0 pointer-events-none rounded-[100px]">
-            <div className="absolute bg-black inset-0 rounded-[100px]" />
-            <div className="absolute inset-0 overflow-hidden rounded-[100px]"><img alt="" className="absolute h-[70.83%] left-[-9.5%] max-w-none top-[14.58%] w-[119%]" src={imgFrame218} /></div>
+
+        <div className="hidden md:grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 px-4 md:px-[80px] py-8 md:py-[64px]">
+          {/* Company Column */}
+          <div>
+            <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic text-[20px] md:text-[24px] text-black text-left tracking-[0.48px] mb-[24px]">Company</p>
+            <ul className="space-y-[16px]">
+              <li><p className="font-['General_Sans:Regular',sans-serif] leading-[normal] text-[#1e3a5f] text-[16px] tracking-[0.32px]">About Us</p></li>
+              <li><p className="font-['General_Sans:Regular',sans-serif] leading-[normal] text-[#1e3a5f] text-[16px] tracking-[0.32px]">{`Terms & Conditions`}</p></li>
+              <li><p className="font-['General_Sans:Regular',sans-serif] leading-[normal] text-[#1e3a5f] text-[16px] tracking-[0.32px]">Privacy Policy</p></li>
+              <li><p className="font-['General_Sans:Regular',sans-serif] leading-[normal] text-[#1e3a5f] text-[16px] tracking-[0.32px]">Careers</p></li>
+            </ul>
           </div>
-        </a>
-        <a href="https://www.instagram.com/medbridge.life/" target="_blank" rel="noopener noreferrer" className="absolute left-[1118px] rounded-[100px] size-[48px] top-[231px] cursor-pointer hover:opacity-80 transition-opacity"><img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none rounded-[100px] size-full" src={imgFrame219} /></a>
-        <a href="#" target="_blank" rel="noopener noreferrer" className="absolute left-[1178px] rounded-[100px] size-[48px] top-[231px] cursor-pointer hover:opacity-80 transition-opacity">
-          <div aria-hidden="true" className="absolute inset-0 pointer-events-none rounded-[100px]">
-            <div className="absolute bg-[#3b579d] inset-0 rounded-[100px]" />
-            <div className="absolute inset-0 overflow-hidden rounded-[100px]"><img alt="" className="absolute left-[-2.08%] max-w-none size-[85.59%] top-[14.41%]" src={imgFrame220} /></div>
+
+          {/* For Customers Column */}
+          <div>
+            <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic text-[20px] md:text-[24px] text-black text-left tracking-[0.48px] mb-[24px]">For Customers</p>
+            <ul className="space-y-[16px]">
+              <li><p className="font-['General_Sans:Regular',sans-serif] leading-[normal] text-[#1e3a5f] text-[16px] tracking-[0.32px]">Medbridge Reviews</p></li>
+              <li><p className="font-['General_Sans:Regular',sans-serif] leading-[normal] text-[#1e3a5f] text-[16px] tracking-[0.32px]">Services</p></li>
+              <li><p className="font-['General_Sans:Regular',sans-serif] leading-[normal] text-[#1e3a5f] text-[16px] tracking-[0.32px]">Package Plan</p></li>
+              <li><p className="font-['General_Sans:Regular',sans-serif] leading-[normal] text-[#1e3a5f] text-[16px] tracking-[0.32px]">AI Match with Hospitals</p></li>
+            </ul>
           </div>
-        </a>
-        <a href="https://x.com/medbridge_life" target="_blank" rel="noopener noreferrer" className="absolute left-[1235px] rounded-[100px] size-[54px] top-[228px] cursor-pointer hover:opacity-80 transition-opacity">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[100px]"><img alt="" className="absolute left-[-5.96%] max-w-none size-[112.66%] top-[-4.1%]" src={imgFrame221} /></div>
-        </a>
-        <div className="absolute flex h-[484.7px] items-center justify-center left-[977.55px] top-[263.74px] w-[548.433px]" style={{ "--transform-inner-width": "291.078125", "--transform-inner-height": "465.203125" } as React.CSSProperties}>
+
+          {/* For Professional Column */}
+          <div>
+            <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic text-[20px] md:text-[24px] text-black text-left tracking-[0.48px] mb-[24px]">For Professional</p>
+            <ul className="space-y-[16px]">
+              <li><p className="font-['General_Sans:Regular',sans-serif] leading-[normal] text-[#1e3a5f] text-[16px] tracking-[0.32px]">Register as a Professional</p></li>
+            </ul>
+          </div>
+
+          {/* Socials Column */}
+          <div>
+            <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic text-[20px] md:text-[24px] text-black text-left tracking-[0.48px] mb-[24px]">Socials</p>
+            <div className="flex gap-[12px]">
+              <a href="https://www.linkedin.com/company/medbridge-life/" target="_blank" rel="noopener noreferrer" className="rounded-[100px] size-[48px] cursor-pointer hover:opacity-80 transition-opacity">
+                <div aria-hidden="true" className="inset-0 pointer-events-none rounded-[100px]">
+                  <div className="bg-black inset-0 rounded-[100px]" />
+                  <div className="inset-0 overflow-hidden rounded-[100px]"><img alt="" className="h-[70.83%] left-[-9.5%] max-w-none top-[14.58%] w-[119%]" src={imgFrame218} /></div>
+                </div>
+              </a>
+              <a href="https://www.instagram.com/medbridge.life/" target="_blank" rel="noopener noreferrer" className="rounded-[100px] size-[48px] cursor-pointer hover:opacity-80 transition-opacity"><img alt="" className="inset-0 max-w-none object-50%-50% object-cover pointer-events-none rounded-[100px] size-full" src={imgFrame219} /></a>
+              <a href="#" target="_blank" rel="noopener noreferrer" className="rounded-[100px] size-[48px] cursor-pointer hover:opacity-80 transition-opacity">
+                <div aria-hidden="true" className="inset-0 pointer-events-none rounded-[100px]">
+                  <div className="bg-[#3b579d] inset-0 rounded-[100px]" />
+                  <div className="inset-0 overflow-hidden rounded-[100px]"><img alt="" className="left-[-2.08%] max-w-none size-[85.59%] top-[14.41%]" src={imgFrame220} /></div>
+                </div>
+              </a>
+              <a href="https://x.com/medbridge_life" target="_blank" rel="noopener noreferrer" className="rounded-[100px] size-[54px] cursor-pointer hover:opacity-80 transition-opacity">
+                <div className="inset-0 overflow-hidden pointer-events-none rounded-[100px]"><img alt="" className="left-[-5.96%] max-w-none size-[112.66%] top-[-4.1%]" src={imgFrame221} /></div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="hidden md:flex absolute h-[484.7px] items-center justify-center right-[40px] bottom-[40px] w-[548.433px]" style={{ "--transform-inner-width": "291.078125", "--transform-inner-height": "465.203125" } as React.CSSProperties}>
           <div className="flex-none rotate-[300deg]"><div className="h-[465.215px] relative w-[291.091px]"><img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgPngwingCom181} /></div></div>
         </div>
       </div>

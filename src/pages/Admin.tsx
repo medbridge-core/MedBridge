@@ -25,7 +25,7 @@ async function api(path: string, method = "GET", body?: any) {
 function Modal({ title, onClose, children, wide }: { title: string; onClose: () => void; children: React.ReactNode; wide?: boolean }) {
   return (
     <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className={`bg-white rounded-2xl shadow-2xl ${wide ? "w-[900px]" : "w-[600px]"} max-h-[85vh] flex flex-col`} onClick={(e) => e.stopPropagation()}>
+      <div className={`bg-white rounded-2xl shadow-2xl w-full ${wide ? "max-w-[900px]" : "max-w-[600px]"} mx-4 max-h-[85vh] flex flex-col`} onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <h2 className="text-lg font-semibold text-[#1e3a5f]">{title}</h2>
           <button onClick={onClose} className="p-1 rounded-lg hover:bg-gray-100 transition-colors"><X size={20} className="text-gray-500" /></button>
@@ -182,11 +182,11 @@ function HospitalTreatmentsTab() {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center justify-between">
-        <div className="relative">
+      <div className="flex items-center justify-between flex-col sm:flex-row gap-4">
+        <div className="relative w-full sm:w-auto">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
-            className="pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm w-[320px] focus:outline-none focus:ring-2 focus:ring-[#64b6ac]/40"
+            className="pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm w-full md:w-[320px] focus:outline-none focus:ring-2 focus:ring-[#64b6ac]/40"
             placeholder="Search hospital treatments..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -385,7 +385,7 @@ function ServicesTab() {
   );
 
   const ServiceForm = ({ item, setItem }: { item: any; setItem: (v: any) => void }) => (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <Field label="ID (slug)" value={item.id} onChange={(v) => setItem({ ...item, id: v })} disabled={!!editItem} />
       <Field label="Title" value={item.title} onChange={(v) => setItem({ ...item, title: v })} />
       <Field label="Description" value={item.description} onChange={(v) => setItem({ ...item, description: v })} />
@@ -400,10 +400,10 @@ function ServicesTab() {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center justify-between">
-        <div className="relative">
+      <div className="flex items-center justify-between flex-col sm:flex-row gap-4">
+        <div className="relative w-full sm:w-auto">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input className="pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm w-[320px] focus:outline-none focus:ring-2 focus:ring-[#64b6ac]/40" placeholder="Search services..." value={search} onChange={(e) => setSearch(e.target.value)} />
+          <input className="pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm w-full md:w-[320px] focus:outline-none focus:ring-2 focus:ring-[#64b6ac]/40" placeholder="Search services..." value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
         <div className="flex gap-3">
           <button onClick={load} className="p-2.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"><RefreshCw size={16} className="text-gray-500" /></button>
@@ -521,12 +521,12 @@ function UserRequestsTab() {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center justify-between">
-        <div className="relative">
+      <div className="flex items-center justify-between flex-col sm:flex-row gap-4">
+        <div className="relative w-full sm:w-auto">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input className="pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm w-[320px] focus:outline-none focus:ring-2 focus:ring-[#64b6ac]/40" placeholder="Search users..." value={search} onChange={(e) => setSearch(e.target.value)} />
+          <input className="pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm w-full md:w-[320px] focus:outline-none focus:ring-2 focus:ring-[#64b6ac]/40" placeholder="Search users..." value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <button onClick={load} className="p-2.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"><RefreshCw size={16} className="text-gray-500" /></button>
+        <button onClick={load} className="p-2.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors shrink-0"><RefreshCw size={16} className="text-gray-500" /></button>
       </div>
 
       {loading ? (
@@ -553,7 +553,7 @@ function UserRequestsTab() {
               </div>
               {expanded === row.id && (
                 <div className="px-5 pb-4 pt-0 border-t border-gray-50">
-                  <div className="grid grid-cols-2 gap-3 mt-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                     {columns.map((c) => (
                       <div key={c} className="flex flex-col">
                         <span className="text-[10px] uppercase tracking-wider text-gray-400 font-medium">{c}</span>
@@ -571,7 +571,7 @@ function UserRequestsTab() {
 
       {editItem && (
         <Modal title={`Edit: ${editItem.name}`} onClose={() => setEditItem(null)} wide>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {columns.filter((c) => c !== "id" && c !== "created_at").map((c) => (
               <Field
                 key={c}
@@ -645,12 +645,12 @@ function CartsTab() {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center justify-between">
-        <div className="relative">
+      <div className="flex items-center justify-between flex-col sm:flex-row gap-4">
+        <div className="relative w-full sm:w-auto">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input className="pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm w-[320px] focus:outline-none focus:ring-2 focus:ring-[#64b6ac]/40" placeholder="Search carts by user..." value={search} onChange={(e) => setSearch(e.target.value)} />
+          <input className="pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm w-full md:w-[320px] focus:outline-none focus:ring-2 focus:ring-[#64b6ac]/40" placeholder="Search carts by user..." value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <button onClick={load} className="p-2.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"><RefreshCw size={16} className="text-gray-500" /></button>
+        <button onClick={load} className="p-2.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors shrink-0"><RefreshCw size={16} className="text-gray-500" /></button>
       </div>
 
       {loading ? (
@@ -721,6 +721,7 @@ function CartsTab() {
 export default function Admin() {
   const [tab, setTab] = useState<Tab>("services");
   const [counts, setCounts] = useState({ hospitals: 0, services: 0, users: 0, carts: 0 });
+  const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -751,8 +752,14 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-[#f7f8fa]">
       {/* Top bar */}
-      <div className="bg-white border-b border-gray-100 px-8 py-4 flex items-center justify-between sticky top-0 z-40">
+      <div className="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-4">
+          <button onClick={() => setShowSidebar(!showSidebar)} className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors">
+            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <div className="hidden md:block" />
           <Link to="/" className="flex items-center gap-2 text-gray-400 hover:text-[#1e3a5f] transition-colors no-underline">
             <ArrowLeft size={18} />
           </Link>
@@ -767,13 +774,49 @@ export default function Admin() {
         </Link>
       </div>
 
-      <div className="flex">
+      {/* Mobile sidebar overlay */}
+      {showSidebar && (
+        <div
+          className="fixed inset-0 bg-black/40 z-30 md:hidden"
+          onClick={() => setShowSidebar(false)}
+        />
+      )}
+
+      <div className="flex relative">
         {/* Sidebar */}
-        <div className="w-[260px] bg-white border-r border-gray-100 min-h-[calc(100vh-73px)] p-4 flex flex-col gap-1 sticky top-[73px]">
+        <div className={`hidden md:flex w-[260px] bg-white border-r border-gray-100 min-h-[calc(100vh-73px)] p-4 flex-col gap-1 sticky top-[73px] ${
+          showSidebar ? "fixed left-0 top-[73px] bottom-0 z-40 md:relative md:top-[73px]" : ""
+        }`}>
           {tabs.map((t) => (
             <button
               key={t.key}
-              onClick={() => setTab(t.key)}
+              onClick={() => {
+                setTab(t.key);
+                setShowSidebar(false);
+              }}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all w-full text-left ${
+                tab === t.key
+                  ? "bg-[#1e3a5f] text-white shadow-lg shadow-[#1e3a5f]/20"
+                  : "text-gray-500 hover:bg-gray-50 hover:text-[#1e3a5f]"
+              }`}
+            >
+              <t.icon size={18} />
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Mobile sidebar drawer */}
+        <div className={`fixed left-0 top-[73px] bottom-0 w-[260px] bg-white border-r border-gray-100 p-4 flex flex-col gap-1 z-40 transform transition-transform md:hidden ${
+          showSidebar ? "translate-x-0" : "-translate-x-full"
+        }`}>
+          {tabs.map((t) => (
+            <button
+              key={t.key}
+              onClick={() => {
+                setTab(t.key);
+                setShowSidebar(false);
+              }}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all w-full text-left ${
                 tab === t.key
                   ? "bg-[#1e3a5f] text-white shadow-lg shadow-[#1e3a5f]/20"
@@ -787,9 +830,9 @@ export default function Admin() {
         </div>
 
         {/* Content */}
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-4 md:p-8">
           {/* Stats */}
-          <div className="grid grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <StatCard label="Hospital Treatments" value={counts.hospitals} icon={Hospital} color="bg-[#FF6F61]" />
             <StatCard label="Services" value={counts.services} icon={LayoutDashboard} color="bg-[#64b6ac]" />
             <StatCard label="User Requests" value={counts.users} icon={Users} color="bg-[#1e3a5f]" />

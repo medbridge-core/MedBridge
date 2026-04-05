@@ -122,7 +122,7 @@ function Frame12() {
           </div>
         </div>
       </div>
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[0px] text-[14px] tracking-[-0.28px] w-[342px] whitespace-pre-wrap">
+      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[0px] text-[14px] tracking-[-0.28px] w-[342px] whitespace-pre-wrap hidden md:block">
         <span>
           {`Bridging  patients worldwide with `}
           <br aria-hidden="true" />
@@ -246,7 +246,7 @@ function Frame18({ onCartClick }: { onCartClick?: () => void }) {
 
 function Frame104({ onCartClick }: { onCartClick?: () => void }) {
   return (
-    <div className="absolute content-stretch flex items-center justify-between left-[80px] top-[63px] w-[1264px]">
+    <div className="content-stretch flex items-center justify-between w-full max-w-[1264px] px-4 md:px-[80px] mt-4 md:mt-[63px]">
       <Frame12 />
       <Frame18 onCartClick={onCartClick} />
     </div>
@@ -256,7 +256,7 @@ function Frame104({ onCartClick }: { onCartClick?: () => void }) {
 function Frame20() {
   return (
     <div className="content-stretch flex flex-col gap-[16px] items-start relative shrink-0 w-full">
-      <div className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[0px] text-[32px] text-nowrap text-white tracking-[-0.64px] whitespace-pre">
+      <div className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[0px] text-[20px] md:text-[32px] text-nowrap text-white tracking-[-0.64px] whitespace-pre">
         <p className="mb-0">
           <span className="font-['General_Sans:Medium',sans-serif] not-italic text-white tracking-[-0.64px]">Find</span>
           <span className="font-['General_Sans:Light',sans-serif] not-italic"> </span>the Right Hospital,{" "}
@@ -617,7 +617,7 @@ function Frame102() {
 function Frame127() {
   return (
     <div className="content-stretch flex flex-col gap-[8px] items-start leading-[normal] not-italic relative shrink-0 text-nowrap whitespace-pre">
-      <p className="font-['General_Sans:Light',sans-serif] relative shrink-0 text-[#1a365d] text-[0px] text-[32px] tracking-[-0.64px]">
+      <p className="font-['General_Sans:Light',sans-serif] relative shrink-0 text-[#1a365d] text-[0px] text-[20px] md:text-[32px] tracking-[-0.64px]">
         <span className="font-['General_Sans:Medium',sans-serif] not-italic">Plan</span> <span className="font-['General_Sans:Regular',sans-serif] not-italic">your Care, at Every Step</span>
       </p>
       <p className="font-['General_Sans:Regular',sans-serif] relative shrink-0 text-[#1e3a5f] text-[16px] tracking-[0.32px]">{`Most booked services, based on 1,000+ patient journeys. `}</p>
@@ -1161,21 +1161,9 @@ function Frame96() {
   return (
     <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
       <Frame22 />
-      <div className="content-stretch flex flex-col gap-[16px] items-start relative shrink-0 w-full">
-        {row1.length > 0 && (
-          <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
-            <div className="content-stretch flex gap-[16px] items-center relative shrink-0 w-full">
-              {row1.map((s) => <DynamicHomeServiceCard key={s.id} service={s} />)}
-            </div>
-          </div>
-        )}
-        {row2.length > 0 && (
-          <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
-            <div className="content-stretch flex gap-[16px] items-center relative shrink-0 w-full">
-              {row2.map((s) => <DynamicHomeServiceCard key={s.id} service={s} />)}
-            </div>
-          </div>
-        )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[16px] w-full">
+        {row1.map((s) => <DynamicHomeServiceCard key={s.id} service={s} />)}
+        {row2.map((s) => <DynamicHomeServiceCard key={s.id} service={s} />)}
       </div>
     </div>
   );
@@ -1310,7 +1298,7 @@ function Frame101() {
 
 function Frame103() {
   return (
-    <div className="absolute content-stretch flex gap-[40px] items-center left-[80px] top-[157px] w-[1280px]">
+    <div className="content-stretch flex flex-col md:flex-row gap-[40px] items-center w-full max-w-[1280px] px-4 md:px-[80px] mt-4 md:mt-8">
       <Frame102 />
       <Frame101 />
     </div>
@@ -1320,7 +1308,7 @@ function Frame103() {
 function Frame140() {
   return (
     <div className="basis-0 content-stretch flex flex-col gap-[4px] grow items-start min-h-px min-w-px relative shrink-0">
-      <div className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1a365d] text-[0px] text-[32px] tracking-[-0.64px] w-full">
+      <div className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1a365d] text-[0px] text-[20px] md:text-[32px] tracking-[-0.64px] w-full">
         <p className="mb-0">
           Track<span className="font-['General_Sans:Semibold',sans-serif] not-italic"> </span>
           <span className="font-['General_Sans:Regular',sans-serif] not-italic">{`your entire journey, `}</span>
@@ -1480,8 +1468,8 @@ function Frame142() {
 
 function Frame138() {
   return (
-    <div className="absolute bg-[rgba(245,230,211,0.5)] left-[80px] rounded-[8px] top-[798px] w-[1280px]">
-      <div className="box-border content-stretch flex flex-col gap-[12px] items-start overflow-clip px-[40px] py-[32px] relative rounded-[inherit] w-[1280px]">
+    <div className="bg-[rgba(245,230,211,0.5)] rounded-[8px] w-full max-w-[1280px] px-4 md:px-[80px] mt-8 md:mt-12">
+      <div className="box-border content-stretch flex flex-col gap-[12px] items-start overflow-clip px-[40px] py-[32px] relative rounded-[inherit] w-full">
         <Frame142 />
       </div>
       <div aria-hidden="true" className="absolute border-2 border-[rgba(255,255,255,0.1)] border-solid inset-0 pointer-events-none rounded-[8px]" />
@@ -1492,7 +1480,7 @@ function Frame138() {
 function Frame24() {
   return (
     <div className="content-stretch flex flex-col gap-[16px] items-start justify-center relative shrink-0 w-full">
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[32px] text-nowrap tracking-[-0.64px] whitespace-pre">
+      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[20px] md:text-[32px] text-nowrap tracking-[-0.64px] whitespace-pre">
         <span className="font-['General_Sans:Regular',sans-serif]">Why</span>
         <span>{` Medbridge?`}</span>
       </p>
@@ -1546,7 +1534,7 @@ function Frame54() {
 
 function Frame49() {
   return (
-    <div className="absolute bg-[rgba(100,182,172,0.1)] box-border content-stretch flex flex-col gap-[10px] items-start left-0 overflow-clip p-[32px] rounded-[16px] top-0 w-[411px]">
+    <div className="relative md:absolute bg-[rgba(100,182,172,0.1)] box-border content-stretch flex flex-col gap-[10px] items-start md:left-0 overflow-clip p-[32px] rounded-[16px] md:top-0 w-full md:w-[411px]">
       <Frame54 />
     </div>
   );
@@ -1598,7 +1586,7 @@ function Frame59() {
 
 function Frame50() {
   return (
-    <div className="absolute bg-[rgba(100,182,172,0.1)] box-border content-stretch flex flex-col gap-[10px] items-start left-[435px] overflow-clip p-[32px] rounded-[16px] top-0 w-[411px]">
+    <div className="relative md:absolute bg-[rgba(100,182,172,0.1)] box-border content-stretch flex flex-col gap-[10px] items-start md:left-[435px] overflow-clip p-[32px] rounded-[16px] md:top-0 w-full md:w-[411px]">
       <Frame59 />
     </div>
   );
@@ -1650,7 +1638,7 @@ function Frame62() {
 
 function Frame51() {
   return (
-    <div className="absolute bg-[rgba(100,182,172,0.1)] box-border content-stretch flex flex-col gap-[10px] items-start left-[869px] overflow-clip p-[32px] rounded-[16px] top-0 w-[411px]">
+    <div className="relative md:absolute bg-[rgba(100,182,172,0.1)] box-border content-stretch flex flex-col gap-[10px] items-start md:left-[869px] overflow-clip p-[32px] rounded-[16px] md:top-0 w-full md:w-[411px]">
       <Frame62 />
     </div>
   );
@@ -1658,7 +1646,7 @@ function Frame51() {
 
 function Frame55() {
   return (
-    <div className="box-border content-stretch flex gap-[10px] h-[231px] items-center justify-center px-[10px] py-0 relative shrink-0">
+    <div className="box-border content-stretch flex flex-col md:flex-row gap-[10px] items-center justify-center px-[10px] py-0 relative shrink-0 w-full">
       <Frame49 />
       <Frame50 />
       <Frame51 />
@@ -1668,7 +1656,7 @@ function Frame55() {
 
 function Frame45() {
   return (
-    <div className="content-stretch flex flex-col gap-[32px] items-start justify-center relative shrink-0 w-[1280px]">
+    <div className="content-stretch flex flex-col gap-[32px] items-start justify-center relative shrink-0 w-full max-w-[1280px] px-4 md:px-0">
       <Frame24 />
       <Frame55 />
     </div>
@@ -1686,7 +1674,7 @@ function Frame26() {
 function Frame25() {
   return (
     <div className="content-stretch flex flex-col gap-[16px] items-center justify-center relative shrink-0 w-full">
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[32px] text-nowrap tracking-[-0.64px] whitespace-pre">
+      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[20px] md:text-[32px] text-nowrap tracking-[-0.64px] whitespace-pre">
         <span className="font-['General_Sans:Regular',sans-serif]">Word from our</span> <span className="text-[#1a365d]">trusted clients</span>
       </p>
       <Frame26 />
@@ -1705,7 +1693,7 @@ function Frame118() {
 function Frame80() {
   return (
     <div className="content-stretch flex flex-col font-['General_Sans:Medium',sans-serif] gap-[8px] items-start leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] w-full">
-      <p className="relative shrink-0 text-[32px] tracking-[-0.64px] w-full">Smoother</p>
+      <p className="relative shrink-0 text-[20px] md:text-[32px] tracking-[-0.64px] w-full">Smoother</p>
       <p className="opacity-60 relative shrink-0 text-[24px] tracking-[-0.48px] w-full">coordination and faster treatment access</p>
     </div>
   );
@@ -2050,7 +2038,7 @@ function Frame1() {
 
 function Frame13() {
   return (
-    <div className="absolute content-stretch flex gap-[23.133px] items-center left-[80px] top-[64px]">
+    <div className="relative content-stretch flex gap-[23.133px] items-center mb-8">
       <Frame1 />
     </div>
   );
@@ -2058,7 +2046,7 @@ function Frame13() {
 
 function Frame56() {
   return (
-    <div className="absolute content-stretch flex gap-[12px] items-center left-[80px] top-[548px]">
+    <div className="relative content-stretch flex gap-[12px] items-center mt-8 pt-8 border-t border-[rgba(0,0,0,0.1)]">
       <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[16px] text-center text-nowrap tracking-[0.32px] whitespace-pre">Copyrights © 2025️</p>
       <div className="flex h-[calc(1px*((var(--transform-inner-width)*1)+(var(--transform-inner-height)*0)))] items-center justify-center relative shrink-0 w-[calc(1px*((var(--transform-inner-height)*1)+(var(--transform-inner-width)*0)))]" style={{ "--transform-inner-width": "21", "--transform-inner-height": "0" } as React.CSSProperties}>
         <div className="flex-none rotate-[90deg]">
@@ -2134,27 +2122,45 @@ function Frame66() {
 
 function Frame44() {
   return (
-    <div className="bg-[rgba(245,230,211,0.5)] h-[618px] overflow-clip relative shrink-0 w-[1440px]">
+    <div className="bg-[rgba(245,230,211,0.5)] min-h-[618px] h-auto overflow-clip relative shrink-0 w-full px-4 md:px-[80px] py-8 md:py-[64px]">
       <Frame13 />
       <Frame56 />
-      <p className="absolute font-['General_Sans:Medium',sans-serif] leading-[normal] left-[135.5px] not-italic text-[24px] text-black text-center text-nowrap top-[172px] tracking-[0.48px] translate-x-[-50%] whitespace-pre">Company</p>
-      <p className="absolute font-['General_Sans:Medium',sans-serif] leading-[normal] left-[492.5px] not-italic text-[24px] text-black text-center text-nowrap top-[172px] tracking-[0.48px] translate-x-[-50%] whitespace-pre">For Customers</p>
-      <p className="absolute font-['General_Sans:Medium',sans-serif] leading-[normal] left-[825px] not-italic text-[24px] text-black text-center text-nowrap top-[172px] tracking-[0.48px] translate-x-[-50%] whitespace-pre">For Professional</p>
-      <p className="absolute font-['General_Sans:Medium',sans-serif] leading-[normal] left-[1058px] not-italic text-[24px] text-black text-nowrap top-[172px] tracking-[0.48px] whitespace-pre">Socials</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[80px] not-italic text-[#1e3a5f] text-[16px] top-[231px] tracking-[0.32px] w-[302px]">About Us</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[80px] not-italic text-[#1e3a5f] text-[16px] top-[269px] tracking-[0.32px] w-[302px]">{`Terms & Conditions`}</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[80px] not-italic text-[#1e3a5f] text-[16px] top-[307px] tracking-[0.32px] w-[302px]">Privacy Policy</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[80px] not-italic text-[#1e3a5f] text-[16px] top-[345px] tracking-[0.32px] w-[302px]">Careers</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[231px] tracking-[0.32px] w-[302px]">Medbridge Reviews</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[732px] not-italic text-[#1e3a5f] text-[16px] top-[231px] tracking-[0.32px] w-[302px]">Register as a Professional</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[269px] tracking-[0.32px] w-[302px]">Services</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[307px] tracking-[0.32px] w-[302px]">Package Plan</p>
-      <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[345px] tracking-[0.32px] w-[302px]">AI Match with Hospitals</p>
-      <Frame63 />
-      <Frame64 />
-      <Frame65 />
-      <Frame66 />
-      <div className="absolute flex h-[calc(1px*((var(--transform-inner-width)*0.8660253882408142)+(var(--transform-inner-height)*0.4999999701976776)))] items-center justify-center left-[977.55px] top-[263.74px] w-[calc(1px*((var(--transform-inner-height)*0.8660253882408142)+(var(--transform-inner-width)*0.4999999701976776)))]" style={{ "--transform-inner-width": "291.078125", "--transform-inner-height": "465.203125" } as React.CSSProperties}>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div>
+          <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic text-[24px] text-black text-nowrap tracking-[0.48px] whitespace-pre mb-6">Company</p>
+          <div className="flex flex-col gap-[38px]">
+            <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px]">About Us</p>
+            <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px]">{`Terms & Conditions`}</p>
+            <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px]">Privacy Policy</p>
+            <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px]">Careers</p>
+          </div>
+        </div>
+        <div>
+          <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic text-[24px] text-black text-nowrap tracking-[0.48px] whitespace-pre mb-6">For Customers</p>
+          <div className="flex flex-col gap-[38px]">
+            <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px]">Medbridge Reviews</p>
+            <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px]">Services</p>
+            <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px]">Package Plan</p>
+            <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px]">AI Match with Hospitals</p>
+          </div>
+        </div>
+        <div>
+          <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic text-[24px] text-black text-nowrap tracking-[0.48px] whitespace-pre mb-6">For Professional</p>
+          <div className="flex flex-col gap-[38px]">
+            <p className="font-['General_Sans:Regular',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[16px] tracking-[0.32px]">Register as a Professional</p>
+          </div>
+        </div>
+        <div>
+          <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic text-[24px] text-black text-nowrap tracking-[0.48px] whitespace-pre mb-6">Socials</p>
+          <div className="flex flex-col gap-[16px]">
+            <Frame63 />
+            <Frame64 />
+            <Frame65 />
+            <Frame66 />
+          </div>
+        </div>
+      </div>
+      <div className="hidden md:flex absolute h-[calc(1px*((var(--transform-inner-width)*0.8660253882408142)+(var(--transform-inner-height)*0.4999999701976776)))] items-center justify-center left-[977.55px] top-[263.74px] w-[calc(1px*((var(--transform-inner-height)*0.8660253882408142)+(var(--transform-inner-width)*0.4999999701976776)))]" style={{ "--transform-inner-width": "291.078125", "--transform-inner-height": "465.203125" } as React.CSSProperties}>
         <div className="flex-none rotate-[300deg]">
           <div className="h-[465.215px] relative w-[291.091px]" data-name="pngwing.com (18) 1">
             <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgPngwingCom181} />
@@ -2176,7 +2182,7 @@ function Frame124() {
 
 function Frame137() {
   return (
-    <div className="absolute content-stretch flex flex-col gap-[56px] items-center left-1/2 top-[1118px] translate-x-[-50%] w-[1440px]">
+    <div className="content-stretch flex flex-col gap-[56px] items-center w-full max-w-[1440px] px-4 md:px-0 mt-8 md:mt-12">
       <Frame45 />
       <Frame124 />
     </div>
@@ -2185,7 +2191,7 @@ function Frame137() {
 
 export default function Desktop({ onCartClick }: { onCartClick?: () => void }) {
   return (
-    <div className="bg-white relative size-full" data-name="Desktop - 25">
+    <div className="bg-white w-full min-h-screen flex flex-col items-center overflow-x-hidden" data-name="Desktop - 25">
       <Frame104 onCartClick={onCartClick} />
       <Frame103 />
       <Frame138 />

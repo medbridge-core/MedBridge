@@ -1360,45 +1360,45 @@ function Frame19() {
 
 function Frame26() {
   return (
-    <div className="absolute left-[1058px] rounded-[100px] size-[48px] top-[231px]">
+    <a href="https://www.linkedin.com/company/medbridge-life/" target="_blank" rel="noopener noreferrer" className="absolute left-[1058px] rounded-[100px] size-[48px] top-[231px] cursor-pointer hover:opacity-80 transition-opacity">
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none rounded-[100px]">
         <div className="absolute bg-black inset-0 rounded-[100px]" />
         <div className="absolute inset-0 overflow-hidden rounded-[100px]">
           <img alt="" className="absolute h-[70.83%] left-[-9.5%] max-w-none top-[14.58%] w-[119%]" src={imgFrame218} />
         </div>
       </div>
-    </div>
+    </a>
   );
 }
 
 function Frame27() {
   return (
-    <div className="absolute left-[1118px] rounded-[100px] size-[48px] top-[231px]">
+    <a href="https://www.instagram.com/medbridge.life/" target="_blank" rel="noopener noreferrer" className="absolute left-[1118px] rounded-[100px] size-[48px] top-[231px] cursor-pointer hover:opacity-80 transition-opacity">
       <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none rounded-[100px] size-full" src={imgFrame219} />
-    </div>
+    </a>
   );
 }
 
 function Frame28() {
   return (
-    <div className="absolute left-[1178px] rounded-[100px] size-[48px] top-[231px]">
+    <a href="#" target="_blank" rel="noopener noreferrer" className="absolute left-[1178px] rounded-[100px] size-[48px] top-[231px] cursor-pointer hover:opacity-80 transition-opacity">
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none rounded-[100px]">
         <div className="absolute bg-[#3b579d] inset-0 rounded-[100px]" />
         <div className="absolute inset-0 overflow-hidden rounded-[100px]">
           <img alt="" className="absolute left-[-2.08%] max-w-none size-[85.59%] top-[14.41%]" src={imgFrame220} />
         </div>
       </div>
-    </div>
+    </a>
   );
 }
 
 function Frame29() {
   return (
-    <div className="absolute left-[1235px] rounded-[100px] size-[54px] top-[228px]">
+    <a href="https://x.com/medbridge_life" target="_blank" rel="noopener noreferrer" className="absolute left-[1235px] rounded-[100px] size-[54px] top-[228px] cursor-pointer hover:opacity-80 transition-opacity">
       <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[100px]">
         <img alt="" className="absolute left-[-5.96%] max-w-none size-[112.66%] top-[-4.1%]" src={imgFrame221} />
       </div>
-    </div>
+    </a>
   );
 }
 

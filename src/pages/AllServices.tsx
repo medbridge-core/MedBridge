@@ -540,22 +540,22 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
         <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[269px] tracking-[0.32px] w-[302px]">Services</p>
         <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[307px] tracking-[0.32px] w-[302px]">Package Plan</p>
         <p className="absolute font-['General_Sans:Regular',sans-serif] leading-[normal] left-[406px] not-italic text-[#1e3a5f] text-[16px] top-[345px] tracking-[0.32px] w-[302px]">AI Match with Hospitals</p>
-        <div className="absolute left-[1058px] rounded-[100px] size-[48px] top-[231px]">
+        <a href="https://www.linkedin.com/company/medbridge-life/" target="_blank" rel="noopener noreferrer" className="absolute left-[1058px] rounded-[100px] size-[48px] top-[231px] cursor-pointer hover:opacity-80 transition-opacity">
           <div aria-hidden="true" className="absolute inset-0 pointer-events-none rounded-[100px]">
             <div className="absolute bg-black inset-0 rounded-[100px]" />
             <div className="absolute inset-0 overflow-hidden rounded-[100px]"><img alt="" className="absolute h-[70.83%] left-[-9.5%] max-w-none top-[14.58%] w-[119%]" src={imgFrame218} /></div>
           </div>
-        </div>
-        <div className="absolute left-[1118px] rounded-[100px] size-[48px] top-[231px]"><img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none rounded-[100px] size-full" src={imgFrame219} /></div>
-        <div className="absolute left-[1178px] rounded-[100px] size-[48px] top-[231px]">
+        </a>
+        <a href="https://www.instagram.com/medbridge.life/" target="_blank" rel="noopener noreferrer" className="absolute left-[1118px] rounded-[100px] size-[48px] top-[231px] cursor-pointer hover:opacity-80 transition-opacity"><img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none rounded-[100px] size-full" src={imgFrame219} /></a>
+        <a href="#" target="_blank" rel="noopener noreferrer" className="absolute left-[1178px] rounded-[100px] size-[48px] top-[231px] cursor-pointer hover:opacity-80 transition-opacity">
           <div aria-hidden="true" className="absolute inset-0 pointer-events-none rounded-[100px]">
             <div className="absolute bg-[#3b579d] inset-0 rounded-[100px]" />
             <div className="absolute inset-0 overflow-hidden rounded-[100px]"><img alt="" className="absolute left-[-2.08%] max-w-none size-[85.59%] top-[14.41%]" src={imgFrame220} /></div>
           </div>
-        </div>
-        <div className="absolute left-[1235px] rounded-[100px] size-[54px] top-[228px]">
+        </a>
+        <a href="https://x.com/medbridge_life" target="_blank" rel="noopener noreferrer" className="absolute left-[1235px] rounded-[100px] size-[54px] top-[228px] cursor-pointer hover:opacity-80 transition-opacity">
           <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[100px]"><img alt="" className="absolute left-[-5.96%] max-w-none size-[112.66%] top-[-4.1%]" src={imgFrame221} /></div>
-        </div>
+        </a>
         <div className="absolute flex h-[484.7px] items-center justify-center left-[977.55px] top-[263.74px] w-[548.433px]" style={{ "--transform-inner-width": "291.078125", "--transform-inner-height": "465.203125" } as React.CSSProperties}>
           <div className="flex-none rotate-[300deg]"><div className="h-[465.215px] relative w-[291.091px]"><img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgPngwingCom181} /></div></div>
         </div>

@@ -10,7 +10,7 @@ import imgFrame221 from "figma:asset/c729d7cdd899cc15aad50f2fd46c3c1e5fff626d.pn
 import imgPngwingCom181 from "figma:asset/c4394d9fa56776a14cbb95906e4f138571834926.png";
 import { projectId, publicAnonKey } from "../utils/supabase/info";
 import { useCart } from "../components/CartContext";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { getServiceImage } from "../components/serviceImageMap";
 
 const API_BASE = `https://${projectId}.supabase.co/functions/v1/make-server-3079ee5f`;
@@ -330,7 +330,7 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
   const categoryTabs = tabs.filter((t) => t.key !== "all") as { key: CategoryKey; label: string; sectionLabel: string }[];
   
   return (
-    <div className="bg-white relative size-full">
+    <div className="bg-white relative size-full overflow-y-auto">
       {/* Header */}
       <div className="absolute content-stretch flex items-center justify-between left-[80px] top-[63.85px] w-[1264px]">
         <div className="content-stretch flex gap-[16px] items-center relative shrink-0">
@@ -391,7 +391,7 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
       </div>
 
       {/* Main content */}
-      <div className="absolute content-stretch flex flex-col items-center left-0 top-[172.15px] w-[1440px]">
+      <div className="content-stretch flex flex-col items-center left-0 mt-[172.15px] w-[1440px]">
         <div className="content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-[1280px]">
           {/* Header text */}
           <div className="content-stretch flex flex-col items-start justify-center relative shrink-0 w-full">
@@ -408,31 +408,8 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
           <div className="bg-[#f9f9f9] relative rounded-[12px] shrink-0 w-full">
             <div className="flex flex-row items-center size-full">
               <div className="box-border content-stretch flex gap-[16px] items-center p-[16px] relative w-full">
-                <div className="content-stretch flex gap-[16px] items-center relative shrink-0 w-[824px]">
-                  <SearchDropdown
-                    icon={<div className="relative shrink-0 size-[28px]"><svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 28 28"><path d={svgPaths.p7f9a8f8} fill="#98A1AE" /></svg></div>}
-                    placeholder="Search for a hospital"
-                    items={hospitals}
-                    loading={loadingH}
-                    onSearch={fetchHospitals}
-                    displayKey="name"
-                    onSelect={(h) => console.log("Selected hospital:", h)}
-                  />
-                  <SearchDropdown
-                    icon={<div className="relative shrink-0 size-[28px]"><svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 28 28"><path d={svgPaths.p2c898080} fill="#98A1AE" /></svg></div>}
-                    placeholder="Search for a City"
-                    items={cities}
-                    loading={loadingC}
-                    onSearch={fetchCities}
-                    displayKey="city"
-                    onSelect={(c) => console.log("Selected city:", c)}
-                  />
-                </div>
-                <div className="flex h-[46px] items-center justify-center relative shrink-0 w-0" style={{ "--transform-inner-width": "46", "--transform-inner-height": "0" } as React.CSSProperties}>
-                  <div className="flex-none rotate-[90deg]"><div className="h-0 relative w-[46px]"><div className="absolute bottom-0 left-0 right-0 top-[-1px]"><svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 46 1"><line opacity="0.06" stroke="black" x2="46" y1="0.5" y2="0.5" /></svg></div></div></div>
-                </div>
-                {/* Toggle */}
-                <div className="basis-0 bg-[#f0f0f0] content-stretch flex grow items-center justify-between min-h-px min-w-px relative rounded-[1000px] shrink-0">
+                {/* Toggle - moved to LHS */}
+                <div className="bg-[#f0f0f0] content-stretch flex items-center justify-between relative rounded-[1000px] shrink-0 w-[380px]">
                   <div className="basis-0 bg-[#1e3a5f] grow h-[48px] min-h-px min-w-px relative rounded-[100px] shrink-0">
                     <div className="flex flex-row items-center justify-center overflow-clip rounded-[inherit] size-full">
                       <div className="box-border content-stretch flex gap-[10px] h-[48px] items-center justify-center px-[16px] py-[11px] relative w-full">
@@ -448,12 +425,27 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
                     </div>
                   </div>
                 </div>
+                <div className="flex h-[46px] items-center justify-center relative shrink-0 w-0" style={{ "--transform-inner-width": "46", "--transform-inner-height": "0" } as React.CSSProperties}>
+                  <div className="flex-none rotate-[90deg]"><div className="h-0 relative w-[46px]"><div className="absolute bottom-0 left-0 right-0 top-[-1px]"><svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 46 1"><line opacity="0.06" stroke="black" x2="46" y1="0.5" y2="0.5" /></svg></div></div></div>
+                </div>
+                {/* Hospital dropdown (city info shown inside) */}
+                <div className="content-stretch flex gap-[16px] items-center relative grow">
+                  <SearchDropdown
+                    icon={<div className="relative shrink-0 size-[28px]"><svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 28 28"><path d={svgPaths.p7f9a8f8} fill="#98A1AE" /></svg></div>}
+                    placeholder="Search for a hospital"
+                    items={hospitals}
+                    loading={loadingH}
+                    onSearch={fetchHospitals}
+                    displayKey="name"
+                    onSelect={(h) => console.log("Selected hospital:", h)}
+                  />
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Tabs */}
-          <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
+          {/* Tabs - sticky on scroll */}
+          <div className="content-stretch flex gap-[12px] items-center relative shrink-0 sticky top-0 bg-white z-40 py-[12px] -my-[12px]">
             {tabs.map((tab) => (
               <div
                 key={tab.key}

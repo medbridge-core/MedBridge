@@ -1997,7 +1997,7 @@ function Frame63() {
 
 function Frame64() {
   return (
-    <a href="#" target="_blank" rel="noopener noreferrer" className="absolute left-[1118px] rounded-[100px] size-[48px] top-[231px] cursor-pointer hover:opacity-80 transition-opacity">
+    <a href="https://www.instagram.com/medbridge.life/" target="_blank" rel="noopener noreferrer" className="absolute left-[1118px] rounded-[100px] size-[48px] top-[231px] cursor-pointer hover:opacity-80 transition-opacity">
       <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none rounded-[100px] size-full" src={imgFrame219} />
     </a>
   );
@@ -2018,7 +2018,7 @@ function Frame65() {
 
 function Frame66() {
   return (
-    <a href="#" target="_blank" rel="noopener noreferrer" className="absolute left-[1235px] rounded-[100px] size-[54px] top-[228px] cursor-pointer hover:opacity-80 transition-opacity">
+    <a href="https://x.com/medbridge_life" target="_blank" rel="noopener noreferrer" className="absolute left-[1235px] rounded-[100px] size-[54px] top-[228px] cursor-pointer hover:opacity-80 transition-opacity">
       <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[100px]">
         <img alt="" className="absolute left-[-5.96%] max-w-none size-[112.66%] top-[-4.1%]" src={imgFrame221} />
       </div>

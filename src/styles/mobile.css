@@ -54,7 +54,8 @@
   }
 
   /* ── Hero (Frame103: flex row of Form + Services) ── */
-  [data-name="Desktop - 25"] > .w-\[1280px\] {
+  /* Use gap selector to distinguish from Frame138 which also has w-[1280px] */
+  [data-name="Desktop - 25"] > .w-\[1280px\].gap-\[40px\] {
     flex-direction: column !important;
     gap: 20px !important;
     padding: 0 16px !important;
@@ -167,19 +168,30 @@
     overflow-x: hidden !important;
   }
 
-  /* Inner wrapper */
+  /* Inner wrapper - make it column so hero comes first */
   [data-name="Desktop - 26"] > .flex.justify-center {
     width: 100% !important;
+    flex-direction: column-reverse !important;
+    /* column-reverse because in DOM, wrapper (Frame124) is first, Frame222 (hero) is second.
+       On mobile we want hero on top, then content below. */
   }
   [data-name="Desktop - 26"] > .flex.justify-center > div {
     width: 100% !important;
+    min-height: auto !important;
   }
 
-  /* Hero gradient section */
+  /* Hero gradient section (has w-screen which overflows on mobile) */
   [data-name="Desktop - 26"] .rounded-bl-\[24px\].rounded-br-\[24px\] {
+    position: relative !important;
     width: 100% !important;
+    max-width: 100vw !important;
     padding: 20px 16px !important;
     box-sizing: border-box !important;
+    border-radius: 0 0 16px 16px !important;
+  }
+  /* Override w-screen on hero */
+  [data-name="Desktop - 26"] .w-screen {
+    width: 100% !important;
   }
 
   /* Nav bar */

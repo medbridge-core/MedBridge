@@ -156,26 +156,27 @@ function ServiceCard({ item }: { item: ServiceItem }) {
   );
 }
 
-function SearchDropdown({
-  icon,
-  placeholder,
-  items,
-  loading,
-  onSearch,
-  displayKey,
+function HospitalSearchDropdown({
+  hospitals,
+  cities,
+  loadingH,
+  loadingC,
+  onSearchHospitals,
+  onSearchCities,
   onSelect,
 }: {
-  icon: React.ReactNode;
-  placeholder: string;
-  items: any[];
-  loading: boolean;
-  onSearch: (q: string) => void;
-  displayKey: string;
-  onSelect: (item: any) => void;
+  hospitals: Hospital[];
+  cities: City[];
+  loadingH: boolean;
+  loadingC: boolean;
+  onSearchHospitals: (q: string) => void;
+  onSearchCities: (q: string) => void;
+  onSelect: (item: Hospital) => void;
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState("");
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -186,26 +187,43 @@ function SearchDropdown({
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  // When dropdown opens, fetch both hospitals and cities
+  const handleOpen = () => {
+    if (!open) {
+      onSearchHospitals("");
+      onSearchCities("");
+    }
+    setOpen(!open);
+  };
+
+  // Filter hospitals by selected city
+  const filteredHospitals = selectedCity
+    ? hospitals.filter((h) => h.city === selectedCity)
+    : hospitals;
+
+  // Extract unique cities from the hospitals list for the filter pills
+  const availableCities = Array.from(new Set(cities.map((c) => c.city))).filter(Boolean);
+
   return (
     <div ref={ref} className="basis-0 bg-white grow min-h-px min-w-px relative rounded-[10px] shrink-0">
       <div className="overflow-clip rounded-[inherit] size-full">
         <div
           className="box-border content-stretch flex gap-[10px] items-center p-[17px] relative w-full cursor-pointer"
-          onClick={() => { setOpen(!open); if (!open) onSearch(""); }}
+          onClick={handleOpen}
         >
           <div className="basis-0 content-stretch flex gap-[10px] grow items-center min-h-px min-w-px relative shrink-0">
-            {icon}
+            <div className="relative shrink-0 size-[28px]"><svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 28 28"><path d={svgPaths.p7f9a8f8} fill="#98A1AE" /></svg></div>
             {open ? (
               <input
                 autoFocus
                 className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic text-[#1e3a5f] text-[18px] outline-none border-none bg-transparent w-full"
-                placeholder={placeholder}
+                placeholder="Search for a hospital"
                 value={query}
-                onChange={(e) => { setQuery(e.target.value); onSearch(e.target.value); }}
+                onChange={(e) => { setQuery(e.target.value); onSearchHospitals(e.target.value); }}
               />
             ) : (
               <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[18px] text-nowrap whitespace-pre" style={{ color: selected ? "#1e3a5f" : "#828283" }}>
-                {selected || placeholder}
+                {selected || "Search for a hospital"}
               </p>
             )}
           </div>
@@ -218,30 +236,63 @@ function SearchDropdown({
       </div>
       <div aria-hidden="true" className="absolute border border-[rgba(26,54,93,0.1)] border-solid inset-0 pointer-events-none rounded-[10px]" />
       {open && (
-        <div className="absolute top-full left-0 right-0 mt-[4px] bg-white rounded-[10px] border border-[rgba(26,54,93,0.1)] shadow-lg z-50 max-h-[300px] overflow-y-auto">
-          {loading ? (
-            <div className="p-[16px] text-center font-['General_Sans:Regular',sans-serif] text-[#828283] text-[16px]">Loading...</div>
-          ) : items.length === 0 ? (
-            <div className="p-[16px] text-center font-['General_Sans:Regular',sans-serif] text-[#828283] text-[16px]">No results found</div>
-          ) : (
-            items.map((item, i) => (
+        <div className="absolute top-full left-0 right-0 mt-[4px] bg-white rounded-[10px] border border-[rgba(26,54,93,0.1)] shadow-lg z-50 max-h-[400px] overflow-hidden flex flex-col">
+          {/* City filter pills */}
+          {availableCities.length > 0 && (
+            <div className="flex gap-[8px] items-center px-[14px] py-[10px] border-b border-[rgba(26,54,93,0.08)] overflow-x-auto shrink-0">
+              <div className="relative shrink-0 size-[18px]"><svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 28 28"><path d={svgPaths.p2c898080} fill="#98A1AE" /></svg></div>
               <div
-                key={i}
-                className="px-[17px] py-[12px] cursor-pointer hover:bg-[#f9f9f9] font-['General_Sans:Medium',sans-serif] text-[#1e3a5f] text-[16px] transition-colors"
-                onClick={() => {
-                  setSelected(item[displayKey]);
-                  setOpen(false);
-                  setQuery("");
-                  onSelect(item);
-                }}
+                className={`px-[12px] py-[5px] rounded-[100px] cursor-pointer text-[13px] font-['General_Sans:Medium',sans-serif] whitespace-nowrap transition-colors ${
+                  selectedCity === null
+                    ? "bg-[#1e3a5f] text-white"
+                    : "bg-[#f0f0f0] text-[#1e3a5f] hover:bg-[#e4e4e4]"
+                }`}
+                onClick={() => setSelectedCity(null)}
               >
-                {item[displayKey]}
-                {item.city && displayKey === "name" && (
-                  <span className="font-['General_Sans:Regular',sans-serif] text-[#828283] text-[14px] ml-[8px]">{item.city}</span>
-                )}
+                All Cities
               </div>
-            ))
+              {availableCities.map((city) => (
+                <div
+                  key={city}
+                  className={`px-[12px] py-[5px] rounded-[100px] cursor-pointer text-[13px] font-['General_Sans:Medium',sans-serif] whitespace-nowrap transition-colors ${
+                    selectedCity === city
+                      ? "bg-[#1e3a5f] text-white"
+                      : "bg-[#f0f0f0] text-[#1e3a5f] hover:bg-[#e4e4e4]"
+                  }`}
+                  onClick={() => setSelectedCity(selectedCity === city ? null : city)}
+                >
+                  {city}
+                </div>
+              ))}
+            </div>
           )}
+          {/* Hospital list */}
+          <div className="overflow-y-auto flex-1">
+            {loadingH || loadingC ? (
+              <div className="p-[16px] text-center font-['General_Sans:Regular',sans-serif] text-[#828283] text-[16px]">Loading...</div>
+            ) : filteredHospitals.length === 0 ? (
+              <div className="p-[16px] text-center font-['General_Sans:Regular',sans-serif] text-[#828283] text-[16px]">No hospitals found</div>
+            ) : (
+              filteredHospitals.map((hospital, i) => (
+                <div
+                  key={i}
+                  className="px-[17px] py-[12px] cursor-pointer hover:bg-[#f9f9f9] font-['General_Sans:Medium',sans-serif] text-[#1e3a5f] text-[16px] transition-colors"
+                  onClick={() => {
+                    setSelected(hospital.name);
+                    setOpen(false);
+                    setQuery("");
+                    setSelectedCity(null);
+                    onSelect(hospital);
+                  }}
+                >
+                  {hospital.name}
+                  {hospital.city && (
+                    <span className="font-['General_Sans:Regular',sans-serif] text-[#828283] text-[14px] ml-[8px]">{hospital.city}</span>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -428,15 +479,15 @@ export default function AllServices({ onCartClick }: { onCartClick?: () => void 
                 <div className="flex h-[46px] items-center justify-center relative shrink-0 w-0" style={{ "--transform-inner-width": "46", "--transform-inner-height": "0" } as React.CSSProperties}>
                   <div className="flex-none rotate-[90deg]"><div className="h-0 relative w-[46px]"><div className="absolute bottom-0 left-0 right-0 top-[-1px]"><svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 46 1"><line opacity="0.06" stroke="black" x2="46" y1="0.5" y2="0.5" /></svg></div></div></div>
                 </div>
-                {/* Hospital dropdown (city info shown inside) */}
+                {/* Hospital dropdown with nested city filter */}
                 <div className="content-stretch flex gap-[16px] items-center relative grow">
-                  <SearchDropdown
-                    icon={<div className="relative shrink-0 size-[28px]"><svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 28 28"><path d={svgPaths.p7f9a8f8} fill="#98A1AE" /></svg></div>}
-                    placeholder="Search for a hospital"
-                    items={hospitals}
-                    loading={loadingH}
-                    onSearch={fetchHospitals}
-                    displayKey="name"
+                  <HospitalSearchDropdown
+                    hospitals={hospitals}
+                    cities={cities}
+                    loadingH={loadingH}
+                    loadingC={loadingC}
+                    onSearchHospitals={fetchHospitals}
+                    onSearchCities={fetchCities}
                     onSelect={(h) => console.log("Selected hospital:", h)}
                   />
                 </div>

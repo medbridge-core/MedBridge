@@ -7,6 +7,7 @@ import Results from './pages/Results';
 import AllServices from './pages/AllServices';
 import Admin from './pages/Admin';
 import CartPanel from './components/CartPanel';
+import ScrollToTop from './components/ScrollToTop';
 import { Toaster } from 'sonner';
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
     <CartProvider>
       <CurrencyProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home onCartClick={() => setIsCartOpen(true)} />} />
           <Route path="/results" element={<Results onCartClick={() => setIsCartOpen(true)} />} />

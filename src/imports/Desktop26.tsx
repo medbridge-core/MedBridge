@@ -29,118 +29,116 @@ interface Hospital {
 function Frame59() {
   return (
     <div className="content-stretch flex flex-col gap-[12px] items-start leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] w-[651px]">
-      <p className="font-['General_Sans:Light',sans-serif] relative shrink-0 text-[0px] text-[32px] tracking-[-0.64px] w-full">
+      <p className="font-[‘General_Sans:Light’,sans-serif] relative shrink-0 text-[0px] text-[32px] tracking-[-0.64px] w-full">
         <span>{`Other `}</span>
-        <span className="font-['General_Sans:Medium',sans-serif] not-italic">Hospitals</span>
+        <span className="font-[‘General_Sans:Medium’,sans-serif] not-italic">Hospitals</span>
       </p>
-      <p className="font-['General_Sans:Regular',sans-serif] relative shrink-0 text-[20px] tracking-[0.4px] w-full">We’ve matched 3 hospitals based on your preferences</p>
+      <p className="font-[‘General_Sans:Regular’,sans-serif] relative shrink-0 text-[20px] tracking-[0.4px] w-full">More hospitals based on your preferences</p>
     </div>
   );
 }
 
-function Frame72() {
+function FilterDropdown({ label, options, selected, onSelect, onClear }: {
+  label: string;
+  options: string[];
+  selected: string | null;
+  onSelect: (val: string | null) => void;
+  onClear?: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
   return (
-    <div className="content-stretch flex flex-col h-[44px] items-start justify-between relative shrink-0">
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[18px] text-[rgba(30,58,95,0.5)] text-nowrap whitespace-pre">Quick Filters:</p>
+    <div ref={ref} className="relative shrink-0">
+      <div
+        className={`box-border content-stretch flex gap-[6px] h-[44px] items-center justify-center overflow-clip px-[20px] py-[6px] relative rounded-[100px] shrink-0 cursor-pointer transition-colors ${
+          selected ? "bg-[#1e3a5f]" : "bg-[rgba(30,58,95,0.1)] hover:bg-[rgba(30,58,95,0.15)]"
+        }`}
+        onClick={() => setOpen(!open)}
+      >
+        <p className={`font-[‘General_Sans:Medium’,sans-serif] leading-[normal] not-italic relative shrink-0 text-[16px] text-nowrap whitespace-pre ${
+          selected ? "text-white" : "text-[#1e3a5f]"
+        }`}>
+          {selected || label}
+        </p>
+        <div className="relative shrink-0 size-[24px]" data-name="CaretCircleDown">
+          <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
+            <g id="CaretCircleDown">
+              <path d={svgPaths.p22614d72} fill={selected ? "white" : "#1E3A5F"} id="Vector" />
+            </g>
+          </svg>
+        </div>
+      </div>
+      {open && (
+        <div className="absolute top-[50px] left-0 bg-white rounded-[10px] border border-[rgba(26,54,93,0.1)] shadow-lg z-50 min-w-[180px] max-h-[250px] overflow-y-auto">
+          {options.length === 0 ? (
+            <div className="px-[16px] py-[12px] font-[‘General_Sans:Regular’,sans-serif] text-[#828283] text-[14px]">No options yet</div>
+          ) : (
+            options.map((opt) => (
+              <div
+                key={opt}
+                className={`px-[16px] py-[10px] cursor-pointer font-[‘General_Sans:Medium’,sans-serif] text-[15px] transition-colors ${
+                  selected === opt ? "bg-[rgba(100,182,172,0.1)] text-[#1e3a5f]" : "text-[#1e3a5f] hover:bg-[#f9f9f9]"
+                }`}
+                onClick={() => { onSelect(selected === opt ? null : opt); setOpen(false); }}
+              >
+                {opt}
+              </div>
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 }
 
-function CaretCircleDown() {
-  return (
-    <div className="relative shrink-0 size-[24px]" data-name="CaretCircleDown">
-      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-        <g id="CaretCircleDown">
-          <path d={svgPaths.p22614d72} fill="var(--fill-0, #1E3A5F)" id="Vector" />
-        </g>
-      </svg>
-    </div>
-  );
-}
+function Frame85({ filters, setFilters }: {
+  filters: { accreditation: string | null; speciality: string | null; location: string | null };
+  setFilters: (f: { accreditation: string | null; speciality: string | null; location: string | null }) => void;
+}) {
+  const hasActiveFilters = filters.accreditation || filters.speciality || filters.location;
 
-function Frame53() {
-  return (
-    <div className="bg-[rgba(30,58,95,0.1)] box-border content-stretch flex gap-[6px] h-[44px] items-center justify-center overflow-clip px-[20px] py-[6px] relative rounded-[100px] shrink-0">
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[16px] text-nowrap whitespace-pre">Accreditation</p>
-      <CaretCircleDown />
-    </div>
-  );
-}
-
-function CaretCircleDown1() {
-  return (
-    <div className="relative shrink-0 size-[24px]" data-name="CaretCircleDown">
-      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-        <g id="CaretCircleDown">
-          <path d={svgPaths.p22614d72} fill="var(--fill-0, #1E3A5F)" id="Vector" />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function Frame60() {
-  return (
-    <div className="bg-[rgba(30,58,95,0.1)] box-border content-stretch flex gap-[6px] h-[44px] items-center justify-center overflow-clip px-[20px] py-[6px] relative rounded-[100px] shrink-0">
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[16px] text-nowrap whitespace-pre">Speciality</p>
-      <CaretCircleDown1 />
-    </div>
-  );
-}
-
-function CaretCircleDown2() {
-  return (
-    <div className="relative shrink-0 size-[24px]" data-name="CaretCircleDown">
-      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-        <g id="CaretCircleDown">
-          <path d={svgPaths.p22614d72} fill="var(--fill-0, #1E3A5F)" id="Vector" />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function Frame61() {
-  return (
-    <div className="bg-[rgba(30,58,95,0.1)] box-border content-stretch flex gap-[6px] h-[44px] items-center justify-center overflow-clip px-[20px] py-[6px] relative rounded-[100px] shrink-0">
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[16px] text-nowrap whitespace-pre">Location</p>
-      <CaretCircleDown2 />
-    </div>
-  );
-}
-
-function Frame58() {
   return (
     <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
-      <Frame53 />
-      <Frame60 />
-      <Frame61 />
-    </div>
-  );
-}
-
-function Frame73() {
-  return (
-    <div className="content-stretch flex gap-[2px] items-start relative shrink-0">
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#1e3a5f] text-[18px] text-nowrap whitespace-pre">Clear All</p>
-    </div>
-  );
-}
-
-function Frame74() {
-  return (
-    <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
-      <Frame58 />
-      <Frame73 />
-    </div>
-  );
-}
-
-function Frame85() {
-  return (
-    <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
-      <Frame72 />
-      <Frame74 />
+      <div className="flex h-[44px] items-center relative shrink-0">
+        <p className="font-[‘General_Sans:Medium’,sans-serif] leading-[normal] not-italic relative shrink-0 text-[18px] text-[rgba(30,58,95,0.5)] text-nowrap whitespace-pre">Quick Filters:</p>
+      </div>
+      <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
+        <FilterDropdown
+          label="Accreditation"
+          options={[]}
+          selected={filters.accreditation}
+          onSelect={(val) => setFilters({ ...filters, accreditation: val })}
+        />
+        <FilterDropdown
+          label="Speciality"
+          options={[]}
+          selected={filters.speciality}
+          onSelect={(val) => setFilters({ ...filters, speciality: val })}
+        />
+        <FilterDropdown
+          label="Location"
+          options={[]}
+          selected={filters.location}
+          onSelect={(val) => setFilters({ ...filters, location: val })}
+        />
+      </div>
+      {hasActiveFilters && (
+        <div
+          className="content-stretch flex gap-[2px] items-center relative shrink-0 cursor-pointer hover:opacity-70 transition-opacity"
+          onClick={() => setFilters({ accreditation: null, speciality: null, location: null })}
+        >
+          <p className="font-[‘General_Sans:Medium’,sans-serif] leading-[normal] not-italic relative shrink-0 text-[#dc5046] text-[18px] text-nowrap whitespace-pre">Clear All</p>
+        </div>
+      )}
     </div>
   );
 }
@@ -177,20 +175,26 @@ function Frame62() {
   );
 }
 
-function Frame81() {
+function Frame81({ filters, setFilters }: {
+  filters: { accreditation: string | null; speciality: string | null; location: string | null };
+  setFilters: (f: { accreditation: string | null; speciality: string | null; location: string | null }) => void;
+}) {
   return (
-    <div className="content-stretch flex gap-[182px] items-center relative shrink-0 w-full">
-      <Frame85 />
+    <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
+      <Frame85 filters={filters} setFilters={setFilters} />
       <Frame62 />
     </div>
   );
 }
 
-function Frame82() {
+function Frame82({ filters, setFilters }: {
+  filters: { accreditation: string | null; speciality: string | null; location: string | null };
+  setFilters: (f: { accreditation: string | null; speciality: string | null; location: string | null }) => void;
+}) {
   return (
     <div className="content-stretch flex flex-col gap-[20px] items-start relative shrink-0 w-full">
       <Frame59 />
-      <Frame81 />
+      <Frame81 filters={filters} setFilters={setFilters} />
     </div>
   );
 }
@@ -1079,20 +1083,26 @@ function Frame123() {
 
 function Frame80() {
   return (
-    <div className="content-stretch flex gap-[24px] items-center relative shrink-0 w-full">
-      <Frame32 />
+    <div className="flex gap-[24px] items-stretch relative shrink-0 w-full overflow-x-auto pb-[8px]" style={{ scrollbarWidth: "thin" }}>
+      <div className="shrink-0"><Frame32 /></div>
       {[...Array(2).keys()].map((_, i) => (
-        <Frame98 key={i} />
+        <div key={i} className="shrink-0"><Frame98 /></div>
       ))}
-      <Frame123 />
+      <div className="shrink-0"><Frame123 /></div>
     </div>
   );
 }
 
 function Frame83() {
+  const [filters, setFilters] = useState<{ accreditation: string | null; speciality: string | null; location: string | null }>({
+    accreditation: null,
+    speciality: null,
+    location: null,
+  });
+
   return (
     <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-[1280px]">
-      <Frame82 />
+      <Frame82 filters={filters} setFilters={setFilters} />
       <Frame80 />
     </div>
   );

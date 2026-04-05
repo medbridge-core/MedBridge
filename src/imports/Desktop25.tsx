@@ -1353,7 +1353,7 @@ function Frame136() {
 
 function Frame139() {
   return (
-    <div className="box-border content-stretch flex flex-col gap-[10px] items-start overflow-clip px-[16px] py-[10px] relative rounded-[4px] shrink-0">
+    <div className="box-border content-stretch flex flex-col gap-[10px] items-start overflow-clip px-[16px] py-[10px] relative rounded-[4px] shrink-0 bg-[rgba(100,182,172,0.6)]">
       <Frame136 />
     </div>
   );

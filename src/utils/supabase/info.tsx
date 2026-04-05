@@ -1,0 +1,2 @@
+export const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID || "caicdszuoaxryogxvmcc"
+export const publicAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhaWNkc3p1b2F4cnlvZ3h2bWNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwNTA3NTYsImV4cCI6MjA3ODYyNjc1Nn0.YcLOPx-3Lj87vHSWQo18akBrmO1Cb-vpXmcZdP8jL0w"

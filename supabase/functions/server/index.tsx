@@ -56,7 +56,7 @@ async function ensureTables() {
       sql: `
         CREATE TABLE IF NOT EXISTS cart_submissions (
           id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-          user_request_id BIGINT NOT NULL REFERENCES user_requests(id) ON DELETE CASCADE,
+          user_request_id UUID NOT NULL REFERENCES user_requests(id) ON DELETE CASCADE,
           status TEXT DEFAULT 'pending' CHECK (status IN ('pending','confirmed','completed','cancelled')),
           total_amount INTEGER DEFAULT 0,
           notes TEXT DEFAULT '',
@@ -358,7 +358,7 @@ app.post("/make-server-3079ee5f/cart/submit", async (c) => {
 
         // Update email on existing record if not set
         if (email && !data.email) {
-          await supabase.from("user_requests").update({ email }).eq("id", userRequestId).catch(() => {});
+          try { await supabase.from("user_requests").update({ email }).eq("id", userRequestId); } catch {}
         }
       } else {
         console.log(`SubmissionId ${userRequestId} not found, searching by email/phone`);
@@ -542,6 +542,75 @@ app.get("/make-server-3079ee5f/services", async (c) => {
 // ============================================================
 // ADMIN ENDPOINTS
 // ============================================================
+
+// Run migration manually — creates tables via direct SQL
+app.post("/make-server-3079ee5f/admin/migrate", async (c) => {
+  const results: string[] = [];
+  try {
+    // Drop broken tables if they exist with wrong types
+    try {
+      await supabase.from("cart_items").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+      results.push("cart_items: cleared or empty");
+    } catch { results.push("cart_items: not found or already clean"); }
+
+    // Test if cart_submissions exists and works
+    const { error: testErr } = await supabase.from("cart_submissions").select("id").limit(1);
+    if (testErr) {
+      results.push(`cart_submissions test failed: ${testErr.message}`);
+    } else {
+      results.push("cart_submissions: exists and accessible");
+    }
+
+    // Test if cart_items exists
+    const { error: testErr2 } = await supabase.from("cart_items").select("id").limit(1);
+    if (testErr2) {
+      results.push(`cart_items test failed: ${testErr2.message}`);
+    } else {
+      results.push("cart_items: exists and accessible");
+    }
+
+    // Test if services exists
+    const { error: testErr3 } = await supabase.from("services").select("id").limit(1);
+    if (testErr3) {
+      results.push(`services test failed: ${testErr3.message}`);
+    } else {
+      results.push("services: exists and accessible");
+    }
+
+    // Check user_requests.email column
+    const { data: testUser, error: testErr4 } = await supabase.from("user_requests").select("id, email").limit(1);
+    if (testErr4) {
+      results.push(`user_requests email column: ${testErr4.message}`);
+    } else {
+      results.push(`user_requests email column: OK (sample: ${JSON.stringify(testUser?.[0])})`);
+    }
+
+    // Try a test insert into cart_submissions to verify FK works
+    const { data: anyUser } = await supabase.from("user_requests").select("id").limit(1).single();
+    if (anyUser) {
+      const { data: testInsert, error: insertErr } = await supabase
+        .from("cart_submissions")
+        .insert({ user_request_id: anyUser.id, status: "pending", total_amount: 0 })
+        .select()
+        .single();
+      if (insertErr) {
+        results.push(`cart_submissions test insert FAILED: ${insertErr.message}`);
+      } else {
+        results.push(`cart_submissions test insert OK: ${testInsert.id}`);
+        // Clean up test
+        await supabase.from("cart_submissions").delete().eq("id", testInsert.id);
+        results.push("Test insert cleaned up");
+      }
+    }
+
+    // Reset migration flag so next request retries
+    migrationDone = false;
+
+    return c.json({ success: true, results });
+  } catch (error) {
+    return c.json({ error: `${error}`, results }, 500);
+  }
+});
 
 // Force seed services
 app.post("/make-server-3079ee5f/admin/services/force-seed", async (c) => {

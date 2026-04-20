@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { projectId, publicAnonKey } from "../utils/supabase/info";
 import { toast } from "sonner";
-import { Hospital, LayoutDashboard, ShoppingCart, Users, Plus, Pencil, Trash2, X, Check, ChevronDown, ChevronUp, Eye, EyeOff, RefreshCw, Search, ArrowLeft } from "lucide-react";
+import { Hospital, LayoutDashboard, ShoppingCart, Users, Plus, Pencil, Trash2, X, Check, ChevronDown, ChevronUp, Eye, EyeOff, RefreshCw, Search, ArrowLeft, TrendingUp, Calendar, Star } from "lucide-react";
 
 const API = `https://${projectId}.supabase.co/functions/v1/make-server-3079ee5f`;
 const headers = { Authorization: `Bearer ${publicAnonKey}`, "Content-Type": "application/json" };
 
-type Tab = "hospitals" | "services" | "users" | "carts";
+type Tab = "hospitals" | "services" | "users" | "submissions";
 
 // ─── Generic helpers ───
 async function api(path: string, method = "GET", body?: any) {
@@ -116,6 +116,22 @@ function StatCard({ label, value, icon: Icon, color }: { label: string; value: n
         <p className="text-sm text-gray-500">{label}</p>
       </div>
     </div>
+  );
+}
+
+// ─── Status badge ───
+function StatusBadge({ status }: { status: string }) {
+  const styles: Record<string, string> = {
+    pending: "bg-amber-50 text-amber-600 border-amber-200",
+    confirmed: "bg-blue-50 text-blue-600 border-blue-200",
+    completed: "bg-green-50 text-green-600 border-green-200",
+    cancelled: "bg-red-50 text-red-500 border-red-200",
+    legacy: "bg-gray-50 text-gray-500 border-gray-200",
+  };
+  return (
+    <span className={`text-[11px] px-2.5 py-0.5 rounded-full font-medium border ${styles[status] || styles.pending}`}>
+      {status.charAt(0).toUpperCase() + status.slice(1)}
+    </span>
   );
 }
 
@@ -302,11 +318,10 @@ function ServicesTab() {
     try {
       const res = await api("/admin/services");
       const svcs = res.services || [];
-      // Auto-seed if no services found
       if (svcs.length === 0) {
         console.log("No services found, auto-seeding...");
         await seedServices();
-        return; // seedServices calls load() again
+        return;
       }
       setServices(svcs);
     } catch (e: any) { toast.error(e.message); }
@@ -316,22 +331,17 @@ function ServicesTab() {
   const seedServices = async () => {
     setSeeding(true);
     try {
-      // Force seed by deleting catalog first, then seeding
       await api("/admin/services/force-seed", "POST");
       toast.success("Services seeded successfully!");
-      // Reload
       const res = await api("/admin/services");
       setServices(res.services || []);
     } catch (e: any) {
-      // Fallback: try the regular seed endpoint
       try {
         await api("/services/seed", "POST");
         toast.success("Services seeded successfully!");
         const res = await api("/admin/services");
         setServices(res.services || []);
-      } catch (e2: any) {
-        toast.error(`Failed to seed: ${e2.message}`);
-      }
+      } catch (e2: any) { toast.error(`Failed to seed: ${e2.message}`); }
     }
     setSeeding(false);
     setLoading(false);
@@ -469,7 +479,7 @@ function ServicesTab() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// USER REQUESTS TAB
+// USER REQUESTS TAB — now with expandable cart submissions
 // ─────────────────────────────────────────────────────────────
 function UserRequestsTab() {
   const [data, setData] = useState<any[]>([]);
@@ -479,6 +489,8 @@ function UserRequestsTab() {
   const [saving, setSaving] = useState(false);
   const [search, setSearch] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [userSubmissions, setUserSubmissions] = useState<Record<string, any[]>>({});
+  const [loadingSubs, setLoadingSubs] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -492,6 +504,25 @@ function UserRequestsTab() {
 
   useEffect(() => { load(); }, [load]);
 
+  const toggleExpand = async (userId: string) => {
+    if (expanded === userId) {
+      setExpanded(null);
+      return;
+    }
+    setExpanded(userId);
+    // Load submissions for this user
+    if (!userSubmissions[userId]) {
+      setLoadingSubs(userId);
+      try {
+        const res = await api(`/admin/user-requests/${userId}/submissions`);
+        setUserSubmissions((prev) => ({ ...prev, [userId]: res.data || [] }));
+      } catch {
+        setUserSubmissions((prev) => ({ ...prev, [userId]: [] }));
+      }
+      setLoadingSubs(null);
+    }
+  };
+
   const handleSave = async () => {
     setSaving(true);
     try {
@@ -504,7 +535,7 @@ function UserRequestsTab() {
   };
 
   const handleDelete = async (id: any) => {
-    if (!confirm("Delete this user request and their linked cart?")) return;
+    if (!confirm("Delete this user request and all their cart submissions?")) return;
     try {
       await api(`/admin/user-requests/${id}`, "DELETE");
       toast.success("Deleted");
@@ -515,9 +546,6 @@ function UserRequestsTab() {
   const filtered = data.filter((row) =>
     search === "" || columns.some((c) => String(row[c] ?? "").toLowerCase().includes(search.toLowerCase()))
   );
-
-  const displayCols = ["id", "name", "age", "country", "phone_number", "treatment_details", "created_at"];
-  const showCols = displayCols.filter((c) => columns.includes(c));
 
   return (
     <div className="flex flex-col gap-5">
@@ -535,14 +563,14 @@ function UserRequestsTab() {
         <div className="grid gap-3">
           {filtered.map((row) => (
             <div key={row.id} className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
-              <div className="flex items-center gap-4 px-5 py-4 cursor-pointer hover:bg-gray-50/50 transition-colors" onClick={() => setExpanded(expanded === row.id ? null : row.id)}>
+              <div className="flex items-center gap-4 px-5 py-4 cursor-pointer hover:bg-gray-50/50 transition-colors" onClick={() => toggleExpand(row.id)}>
                 <div className="w-10 h-10 bg-[#1e3a5f]/5 rounded-full flex items-center justify-center shrink-0">
                   <Users size={18} className="text-[#1e3a5f]" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-[#1e3a5f] text-[15px]">{row.name || "—"}</p>
                   <p className="text-xs text-gray-500 mt-0.5">
-                    {row.country || "—"} · Age {row.age || "—"} · {row.phone_number || "No phone"} · {new Date(row.created_at).toLocaleDateString()}
+                    {row.country || "—"} · Age {row.age || "—"} · {row.phone_number || "No phone"} · {row.email || "No email"} · {new Date(row.created_at).toLocaleDateString()}
                   </p>
                 </div>
                 <div className="flex gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
@@ -553,13 +581,54 @@ function UserRequestsTab() {
               </div>
               {expanded === row.id && (
                 <div className="px-5 pb-4 pt-0 border-t border-gray-50">
-                  <div className="grid grid-cols-2 gap-3 mt-3">
+                  {/* User details grid */}
+                  <div className="grid grid-cols-2 gap-3 mt-3 mb-4">
                     {columns.map((c) => (
                       <div key={c} className="flex flex-col">
                         <span className="text-[10px] uppercase tracking-wider text-gray-400 font-medium">{c}</span>
                         <span className="text-sm text-[#1e3a5f] break-all">{String(row[c] ?? "—")}</span>
                       </div>
                     ))}
+                  </div>
+
+                  {/* Cart submissions section */}
+                  <div className="border-t border-gray-100 pt-3">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+                      <ShoppingCart size={14} /> Cart Submissions
+                    </p>
+                    {loadingSubs === row.id ? (
+                      <div className="flex items-center gap-2 py-3 text-gray-400 text-sm"><RefreshCw size={14} className="animate-spin" /> Loading...</div>
+                    ) : (userSubmissions[row.id] || []).length === 0 ? (
+                      <p className="text-sm text-gray-400 py-2">No cart submissions yet</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {(userSubmissions[row.id] || []).map((sub: any, idx: number) => (
+                          <div key={sub.id || idx} className="bg-gray-50 rounded-lg p-3">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-2">
+                                <StatusBadge status={sub.status || "pending"} />
+                                <span className="text-xs text-gray-500">
+                                  {sub.created_at ? new Date(sub.created_at).toLocaleString() : "Legacy submission"}
+                                </span>
+                              </div>
+                              {sub.total_amount > 0 && (
+                                <span className="text-sm font-semibold text-[#1e3a5f]">₹{sub.total_amount.toLocaleString()}</span>
+                              )}
+                            </div>
+                            <div className="space-y-1">
+                              {(sub.cart_items || []).map((item: any, i: number) => (
+                                <div key={i} className="flex items-center justify-between text-sm">
+                                  <span className="text-[#1e3a5f]">{item.service_title || item.service_id}</span>
+                                  {item.price_at_submission > 0 && (
+                                    <span className="text-gray-500 text-xs">₹{item.price_at_submission.toLocaleString()}</span>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -593,20 +662,27 @@ function UserRequestsTab() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// CARTS TAB
+// CART SUBMISSIONS TAB (replaces old Carts tab)
 // ─────────────────────────────────────────────────────────────
-function CartsTab() {
+const STATUS_OPTIONS = [
+  { value: "pending", label: "Pending" },
+  { value: "confirmed", label: "Confirmed" },
+  { value: "completed", label: "Completed" },
+  { value: "cancelled", label: "Cancelled" },
+];
+
+function CartSubmissionsTab() {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [editItem, setEditItem] = useState<any>(null);
   const [saving, setSaving] = useState(false);
   const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
 
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await api("/admin/user-services");
+      const res = await api("/admin/cart-submissions");
       setData(res.data || []);
     } catch (e: any) { toast.error(e.message); }
     setLoading(false);
@@ -614,41 +690,52 @@ function CartsTab() {
 
   useEffect(() => { load(); }, [load]);
 
-  const handleRemoveService = (cartItem: any, serviceIdx: number) => {
-    const updated = { ...cartItem, services: cartItem.services.filter((_: any, i: number) => i !== serviceIdx) };
-    setEditItem(updated);
-  };
-
-  const handleSaveCart = async () => {
+  const updateStatus = async (submissionId: string, newStatus: string) => {
     setSaving(true);
     try {
-      await api(`/admin/user-services/${editItem.user_request_id}`, "PUT", { services: editItem.services });
-      toast.success("Cart updated");
-      setEditItem(null);
-      load();
+      await api(`/admin/cart-submissions/${submissionId}`, "PUT", { status: newStatus });
+      toast.success(`Status updated to ${newStatus}`);
+      // Update locally
+      setData((prev) => prev.map((s) => s.id === submissionId ? { ...s, status: newStatus } : s));
     } catch (e: any) { toast.error(e.message); }
     setSaving(false);
   };
 
-  const handleClearCart = async (userId: string) => {
-    if (!confirm("Clear all cart services for this user?")) return;
+  const handleDelete = async (id: string) => {
+    if (!confirm("Delete this cart submission and all its items?")) return;
     try {
-      await api(`/admin/user-services/${userId}`, "DELETE");
-      toast.success("Cart cleared");
+      await api(`/admin/cart-submissions/${id}`, "DELETE");
+      toast.success("Submission deleted");
       load();
     } catch (e: any) { toast.error(e.message); }
   };
 
-  const filtered = data.filter((row) =>
-    search === "" || (row.name || "").toLowerCase().includes(search.toLowerCase()) || (row.email || "").toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = data.filter((sub) => {
+    const matchesSearch = search === "" ||
+      (sub.user?.name || "").toLowerCase().includes(search.toLowerCase()) ||
+      (sub.user?.email || "").toLowerCase().includes(search.toLowerCase()) ||
+      (sub.user?.phone_number || "").toLowerCase().includes(search.toLowerCase());
+    const matchesStatus = statusFilter === "all" || sub.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between">
-        <div className="relative">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input className="pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm w-[320px] focus:outline-none focus:ring-2 focus:ring-[#64b6ac]/40" placeholder="Search carts by user..." value={search} onChange={(e) => setSearch(e.target.value)} />
+        <div className="flex gap-3 items-center">
+          <div className="relative">
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input className="pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm w-[320px] focus:outline-none focus:ring-2 focus:ring-[#64b6ac]/40" placeholder="Search by user name, email, phone..." value={search} onChange={(e) => setSearch(e.target.value)} />
+          </div>
+          <select
+            className="border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-[#1e3a5f] bg-white focus:outline-none focus:ring-2 focus:ring-[#64b6ac]/40"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="all">All Statuses</option>
+            {STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            <option value="legacy">Legacy</option>
+          </select>
         </div>
         <button onClick={load} className="p-2.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"><RefreshCw size={16} className="text-gray-500" /></button>
       </div>
@@ -657,59 +744,67 @@ function CartsTab() {
         <div className="flex items-center justify-center py-20 text-gray-400"><RefreshCw size={24} className="animate-spin" /></div>
       ) : (
         <div className="grid gap-3">
-          {filtered.map((cart) => (
-            <div key={cart.user_request_id} className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
-              <div className="flex items-center gap-4 px-5 py-4 cursor-pointer hover:bg-gray-50/50 transition-colors" onClick={() => setExpanded(expanded === cart.user_request_id ? null : cart.user_request_id)}>
+          {filtered.map((sub) => (
+            <div key={sub.id} className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
+              <div className="flex items-center gap-4 px-5 py-4 cursor-pointer hover:bg-gray-50/50 transition-colors" onClick={() => setExpanded(expanded === sub.id ? null : sub.id)}>
                 <div className="w-10 h-10 bg-[#64b6ac]/10 rounded-full flex items-center justify-center shrink-0">
                   <ShoppingCart size={18} className="text-[#64b6ac]" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-[#1e3a5f] text-[15px]">{cart.name || "Unknown User"}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{cart.email || cart.phone || "No contact"} · {cart.services.length} service(s)</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-semibold text-[#1e3a5f] text-[15px]">{sub.user?.name || "Unknown User"}</p>
+                    <StatusBadge status={sub.status || "pending"} />
+                  </div>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    {sub.user?.email || sub.user?.phone_number || "No contact"} · {(sub.cart_items || []).length} item(s)
+                    {sub.total_amount > 0 ? ` · ₹${sub.total_amount.toLocaleString()}` : ""}
+                    {sub.created_at ? ` · ${new Date(sub.created_at).toLocaleString()}` : ""}
+                  </p>
                 </div>
                 <div className="flex gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
-                  <button onClick={() => setEditItem({ ...cart })} className="p-2 rounded-lg hover:bg-blue-50 text-gray-400 hover:text-blue-600 transition-colors"><Pencil size={16} /></button>
-                  <button onClick={() => handleClearCart(cart.user_request_id)} className="p-2 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors"><Trash2 size={16} /></button>
+                  <select
+                    className="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-[#1e3a5f] bg-white focus:outline-none focus:ring-2 focus:ring-[#64b6ac]/40"
+                    value={sub.status || "pending"}
+                    onChange={(e) => updateStatus(sub.id, e.target.value)}
+                    disabled={saving || sub.status === "legacy"}
+                  >
+                    {STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+                  </select>
+                  <button onClick={() => handleDelete(sub.id)} className="p-2 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors"><Trash2 size={16} /></button>
                 </div>
-                {expanded === cart.user_request_id ? <ChevronUp size={16} className="text-gray-400" /> : <ChevronDown size={16} className="text-gray-400" />}
+                {expanded === sub.id ? <ChevronUp size={16} className="text-gray-400" /> : <ChevronDown size={16} className="text-gray-400" />}
               </div>
-              {expanded === cart.user_request_id && (
+              {expanded === sub.id && (
                 <div className="px-5 pb-4 pt-0 border-t border-gray-50">
-                  <div className="mt-3 space-y-2">
-                    {cart.services.map((svc: any, i: number) => (
-                      <div key={i} className="flex items-center gap-3 bg-gray-50 rounded-lg px-3 py-2">
-                        <span className="text-sm font-medium text-[#1e3a5f] flex-1">{svc.title || svc.id}</span>
-                        <span className="text-xs text-gray-500">{svc.category}</span>
-                        <span className="text-xs font-medium text-[#1e3a5f]">{svc.price}</span>
-                      </div>
-                    ))}
+                  <div className="mt-3">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Items in this submission</p>
+                    <div className="space-y-1.5">
+                      {(sub.cart_items || []).map((item: any, i: number) => (
+                        <div key={i} className="flex items-center gap-3 bg-gray-50 rounded-lg px-3 py-2.5">
+                          <span className="text-sm font-medium text-[#1e3a5f] flex-1">{item.service_title || item.service_id}</span>
+                          <span className="text-xs text-gray-500">{item.service_id}</span>
+                          {item.price_at_submission > 0 && (
+                            <span className="text-xs font-medium text-[#1e3a5f]">₹{item.price_at_submission.toLocaleString()}</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* User details */}
+                  <div className="mt-3 pt-3 border-t border-gray-100">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">User Details</p>
+                    <div className="grid grid-cols-3 gap-2">
+                      <div><span className="text-[10px] text-gray-400 uppercase">Name</span><p className="text-sm text-[#1e3a5f]">{sub.user?.name || "—"}</p></div>
+                      <div><span className="text-[10px] text-gray-400 uppercase">Email</span><p className="text-sm text-[#1e3a5f]">{sub.user?.email || "—"}</p></div>
+                      <div><span className="text-[10px] text-gray-400 uppercase">Phone</span><p className="text-sm text-[#1e3a5f]">{sub.user?.phone_number || "—"}</p></div>
+                    </div>
                   </div>
                 </div>
               )}
             </div>
           ))}
-          {filtered.length === 0 && <div className="text-center py-12 text-gray-400 text-sm">No carts found</div>}
+          {filtered.length === 0 && <div className="text-center py-12 text-gray-400 text-sm">No cart submissions found</div>}
         </div>
-      )}
-
-      {editItem && (
-        <Modal title={`Cart: ${editItem.name}`} onClose={() => setEditItem(null)}>
-          <div className="space-y-2 mb-4">
-            <p className="text-xs text-gray-500 font-medium uppercase tracking-wider">Services ({editItem.services.length})</p>
-            {editItem.services.map((svc: any, i: number) => (
-              <div key={i} className="flex items-center gap-3 bg-gray-50 rounded-lg px-3 py-2.5">
-                <span className="text-sm font-medium text-[#1e3a5f] flex-1">{svc.title || svc.id}</span>
-                <span className="text-xs text-gray-500">{svc.price}</span>
-                <button onClick={() => handleRemoveService(editItem, i)} className="p-1 rounded hover:bg-red-100 text-gray-400 hover:text-red-500 transition-colors"><X size={14} /></button>
-              </div>
-            ))}
-            {editItem.services.length === 0 && <p className="text-sm text-gray-400 text-center py-4">Cart is empty</p>}
-          </div>
-          <div className="flex gap-3 pt-3 border-t border-gray-100">
-            <SaveButton onClick={handleSaveCart} loading={saving} />
-            <DeleteButton onClick={() => { handleClearCart(editItem.user_request_id); setEditItem(null); }} loading={false} />
-          </div>
-        </Modal>
       )}
     </div>
   );
@@ -720,24 +815,42 @@ function CartsTab() {
 // ─────────────────────────────────────────────────────────────
 export default function Admin() {
   const [tab, setTab] = useState<Tab>("services");
-  const [counts, setCounts] = useState({ hospitals: 0, services: 0, users: 0, carts: 0 });
+  const [stats, setStats] = useState({
+    hospitals: 0, services: 0, users: 0,
+    cartSubmissions: 0, totalRevenue: 0, weeklySubmissions: 0, popularService: "—",
+  });
 
   useEffect(() => {
     (async () => {
       try {
-        const [h, s, u, c] = await Promise.all([
-          api("/admin/hospital-treatments").catch(() => ({ data: [] })),
-          api("/admin/services").catch(() => ({ services: [] })),
-          api("/admin/user-requests").catch(() => ({ data: [] })),
-          api("/admin/user-services").catch(() => ({ data: [] })),
-        ]);
-        setCounts({
-          hospitals: h.data?.length || 0,
-          services: s.services?.length || 0,
-          users: u.data?.length || 0,
-          carts: c.data?.length || 0,
+        const res = await api("/admin/stats");
+        setStats({
+          hospitals: res.hospitals || 0,
+          services: res.services || 0,
+          users: res.users || 0,
+          cartSubmissions: res.cartSubmissions || 0,
+          totalRevenue: res.totalRevenue || 0,
+          weeklySubmissions: res.weeklySubmissions || 0,
+          popularService: res.popularService || "—",
         });
-      } catch {}
+      } catch {
+        // Fallback: fetch counts individually
+        try {
+          const [h, s, u, c] = await Promise.all([
+            api("/admin/hospital-treatments").catch(() => ({ data: [] })),
+            api("/admin/services").catch(() => ({ services: [] })),
+            api("/admin/user-requests").catch(() => ({ data: [] })),
+            api("/admin/cart-submissions").catch(() => ({ data: [] })),
+          ]);
+          setStats((prev) => ({
+            ...prev,
+            hospitals: h.data?.length || 0,
+            services: s.services?.length || 0,
+            users: u.data?.length || 0,
+            cartSubmissions: c.data?.length || 0,
+          }));
+        } catch {}
+      }
     })();
   }, [tab]);
 
@@ -745,7 +858,7 @@ export default function Admin() {
     { key: "hospitals", label: "Hospital Treatments", icon: Hospital },
     { key: "services", label: "Services", icon: LayoutDashboard },
     { key: "users", label: "User Requests", icon: Users },
-    { key: "carts", label: "User Carts", icon: ShoppingCart },
+    { key: "submissions", label: "Cart Submissions", icon: ShoppingCart },
   ];
 
   return (
@@ -759,7 +872,7 @@ export default function Admin() {
           <div className="w-px h-6 bg-gray-200" />
           <div>
             <h1 className="text-lg font-bold text-[#1e3a5f] font-['General_Sans:Semibold',sans-serif]">Medbridge Admin</h1>
-            <p className="text-xs text-gray-400">Manage hospital treatments, services, users & carts</p>
+            <p className="text-xs text-gray-400">Manage hospital treatments, services, users & submissions</p>
           </div>
         </div>
         <Link to="/" className="text-sm text-[#64b6ac] font-medium hover:underline no-underline">
@@ -790,17 +903,17 @@ export default function Admin() {
         <div className="flex-1 p-8">
           {/* Stats */}
           <div className="grid grid-cols-4 gap-4 mb-8">
-            <StatCard label="Hospital Treatments" value={counts.hospitals} icon={Hospital} color="bg-[#FF6F61]" />
-            <StatCard label="Services" value={counts.services} icon={LayoutDashboard} color="bg-[#64b6ac]" />
-            <StatCard label="User Requests" value={counts.users} icon={Users} color="bg-[#1e3a5f]" />
-            <StatCard label="Active Carts" value={counts.carts} icon={ShoppingCart} color="bg-[#f5a623]" />
+            <StatCard label="User Requests" value={stats.users} icon={Users} color="bg-[#1e3a5f]" />
+            <StatCard label="Cart Submissions" value={stats.cartSubmissions} icon={ShoppingCart} color="bg-[#64b6ac]" />
+            <StatCard label="This Week" value={stats.weeklySubmissions} icon={Calendar} color="bg-[#f5a623]" />
+            <StatCard label="Most Popular" value={stats.popularService} icon={Star} color="bg-[#FF6F61]" />
           </div>
 
           {/* Tab content */}
           {tab === "hospitals" && <HospitalTreatmentsTab />}
           {tab === "services" && <ServicesTab />}
           {tab === "users" && <UserRequestsTab />}
-          {tab === "carts" && <CartsTab />}
+          {tab === "submissions" && <CartSubmissionsTab />}
         </div>
       </div>
     </div>

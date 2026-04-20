@@ -657,7 +657,7 @@ function Frame70() {
   return (
     <div className="content-stretch flex items-start justify-between relative shrink-0 w-full">
       <Frame27 />
-      <HomeAddButton serviceId="Medical Visa" title="Medical Visa" category="pre-arrival" image={imgImage1466} price="₹4000" />
+      <HomeAddButton serviceId="medical-visa" title="Medical Visa" category="pre-arrival" image={imgImage1466} price="₹4000" />
     </div>
   );
 }
@@ -724,7 +724,7 @@ function Frame89() {
   return (
     <div className="content-stretch flex items-start justify-between relative shrink-0 w-full">
       <Frame29 />
-      <HomeAddButton serviceId="Med X Visa" title="Med X Visa" category="pre-arrival" image={imgImage1467} price="₹4000" />
+      <HomeAddButton serviceId="med-x-visa" title="Med X Visa" category="pre-arrival" image={imgImage1467} price="₹4000" />
     </div>
   );
 }
@@ -791,7 +791,7 @@ function Frame93() {
   return (
     <div className="content-stretch flex items-start justify-between relative shrink-0 w-full">
       <Frame31 />
-      <HomeAddButton serviceId="Flight Tickets" title="Flight Tickets" category="pre-arrival" image={imgImage1468} price="₹4000" />
+      <HomeAddButton serviceId="flight-tickets" title="Flight Tickets" category="pre-arrival" image={imgImage1468} price="₹4000" />
     </div>
   );
 }
@@ -876,7 +876,7 @@ function Frame99() {
   return (
     <div className="content-stretch flex items-start justify-between relative shrink-0 w-full">
       <Frame33 />
-      <HomeAddButton serviceId="Accommodation" title="Accommodation" category="on-arrival" image={imgImage1469} price="₹4000" />
+      <HomeAddButton serviceId="accommodation" title="Accommodation" category="on-arrival" image={imgImage1469} price="₹4000" />
     </div>
   );
 }
@@ -943,7 +943,7 @@ function Frame108() {
   return (
     <div className="content-stretch flex items-start justify-between relative shrink-0 w-full">
       <Frame35 />
-      <HomeAddButton serviceId="Airport Pickup & Drop" title="Pickup & Drop" category="on-arrival" image={imgImage1470} price="₹4000" />
+      <HomeAddButton serviceId="airport-pickup-drop" title="Pickup & Drop" category="on-arrival" image={imgImage1470} price="₹4000" />
     </div>
   );
 }
@@ -1010,7 +1010,7 @@ function Frame113() {
   return (
     <div className="content-stretch flex items-start justify-between relative shrink-0 w-full">
       <Frame37 />
-      <HomeAddButton serviceId="Translator /- Day" title="Translator" category="post-treatment" image={imgImage1471} price="₹4000" />
+      <HomeAddButton serviceId="translator" title="Translator" category="post-treatment" image={imgImage1471} price="₹4000" />
     </div>
   );
 }
@@ -1092,7 +1092,7 @@ function DynamicHomeServiceCard({ service }: { service: HomeServiceItem }) {
                 <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={service.image} />
               </div>
             </div>
-            <HomeAddButton serviceId={service.title} title={service.title} category={service.category} image={service.image} price={service.price} />
+            <HomeAddButton serviceId={service.id} title={service.title} category={service.category} image={service.image} price={service.price} />
           </div>
           <div className="content-stretch flex gap-[24px] items-start relative shrink-0 w-full">
             <div className="basis-0 content-stretch flex flex-col gap-[8px] grow items-start min-h-px min-w-px relative shrink-0">

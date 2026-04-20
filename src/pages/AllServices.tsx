@@ -23,6 +23,7 @@ type TabKey = "all" | "pre-arrival" | "on-arrival" | "during-treatment" | "post-
 type CategoryKey = "pre-arrival" | "on-arrival" | "during-treatment" | "post-treatment";
 
 interface ServiceItem {
+  id: string;
   image: string;
   title: string;
   description: string;
@@ -33,26 +34,27 @@ interface ServiceItem {
 
 // Fallback static services used while API loads or if API fails
 const FALLBACK_SERVICES: ServiceItem[] = [
-  { image: getServiceImage("medical-visa"), title: "Medical Visa", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "pre-arrival" },
-  { image: getServiceImage("med-x-visa"), title: "Med X Visa", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "Starting from", category: "pre-arrival" },
-  { image: getServiceImage("flight-tickets"), title: "Flight Tickets", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "Starting from", category: "pre-arrival" },
-  { image: getServiceImage("accommodation"), title: "Accommodation", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "on-arrival" },
-  { image: getServiceImage("airport-pickup-drop"), title: "Airport Pickup & Drop", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "on-arrival" },
-  { image: getServiceImage("sim-internet"), title: "SIM / Internet", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "on-arrival" },
-  { image: getServiceImage("in-hospital-liaison"), title: "In Hospital Liaison", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "during-treatment" },
-  { image: getServiceImage("local-transport"), title: "Local Transport /- Day", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "during-treatment" },
-  { image: getServiceImage("food"), title: "Food", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "during-treatment" },
-  { image: getServiceImage("translator"), title: "Translator /- Day", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "post-treatment" },
-  { image: getServiceImage("caregivers"), title: "Caregivers", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "post-treatment" },
-  { image: getServiceImage("dietician"), title: "Dietician", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "post-treatment" },
-  { image: getServiceImage("rehabilitation-center"), title: "Rehabilitation Center", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "post-treatment" },
-  { image: getServiceImage("foreign-exchange"), title: "Foreign Exchange", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "post-treatment" },
-  { image: getServiceImage("insurance-assistance"), title: "Insurance Assistance", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "post-treatment" },
+  { id: "medical-visa", image: getServiceImage("medical-visa"), title: "Medical Visa", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "pre-arrival" },
+  { id: "med-x-visa", image: getServiceImage("med-x-visa"), title: "Med X Visa", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "Starting from", category: "pre-arrival" },
+  { id: "flight-tickets", image: getServiceImage("flight-tickets"), title: "Flight Tickets", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "Starting from", category: "pre-arrival" },
+  { id: "accommodation", image: getServiceImage("accommodation"), title: "Accommodation", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "on-arrival" },
+  { id: "airport-pickup-drop", image: getServiceImage("airport-pickup-drop"), title: "Airport Pickup & Drop", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "on-arrival" },
+  { id: "sim-internet", image: getServiceImage("sim-internet"), title: "SIM / Internet", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "on-arrival" },
+  { id: "in-hospital-liaison", image: getServiceImage("in-hospital-liaison"), title: "In Hospital Liaison", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "during-treatment" },
+  { id: "local-transport", image: getServiceImage("local-transport"), title: "Local Transport /- Day", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "during-treatment" },
+  { id: "food", image: getServiceImage("food"), title: "Food", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "during-treatment" },
+  { id: "translator", image: getServiceImage("translator"), title: "Translator /- Day", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "post-treatment" },
+  { id: "caregivers", image: getServiceImage("caregivers"), title: "Caregivers", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "post-treatment" },
+  { id: "dietician", image: getServiceImage("dietician"), title: "Dietician", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "post-treatment" },
+  { id: "rehabilitation-center", image: getServiceImage("rehabilitation-center"), title: "Rehabilitation Center", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "post-treatment" },
+  { id: "foreign-exchange", image: getServiceImage("foreign-exchange"), title: "Foreign Exchange", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "post-treatment" },
+  { id: "insurance-assistance", image: getServiceImage("insurance-assistance"), title: "Insurance Assistance", description: "Comfy Ride from airport to hotel", price: "₹4000", priceLabel: "From", category: "post-treatment" },
 ];
 
 // Convert API service to frontend ServiceItem
 function apiToServiceItem(apiService: any): ServiceItem {
   return {
+    id: apiService.id,
     image: getServiceImage(apiService.image_key || apiService.id),
     title: apiService.title,
     description: apiService.description || "Comfy Ride from airport to hotel",
@@ -117,7 +119,7 @@ function AllServicesCurrencyDropdown() {
 function ServiceCard({ item }: { item: ServiceItem }) {
   const { addItem, isInCart, removeItem } = useCart();
   const { formatPrice } = useCurrency();
-  const inCart = isInCart(item.title);
+  const inCart = isInCart(item.id);
 
   return (
     <div className="bg-white relative rounded-[10px] shrink-0 w-[302px]">
@@ -130,11 +132,11 @@ function ServiceCard({ item }: { item: ServiceItem }) {
               </div>
             </div>
             {inCart ? (
-              <div className="bg-[rgba(220,80,70,0.1)] box-border content-stretch flex gap-[10px] items-center justify-center overflow-clip px-[25px] py-[9px] relative rounded-[50px] shrink-0 cursor-pointer hover:bg-[rgba(220,80,70,0.2)] transition-colors" onClick={() => { removeItem(item.title); toast.success(`${item.title} removed from cart`); }}>
+              <div className="bg-[rgba(220,80,70,0.1)] box-border content-stretch flex gap-[10px] items-center justify-center overflow-clip px-[25px] py-[9px] relative rounded-[50px] shrink-0 cursor-pointer hover:bg-[rgba(220,80,70,0.2)] transition-colors" onClick={() => { removeItem(item.id); toast.success(`${item.title} removed from cart`); }}>
                 <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#dc5046] text-[18px] text-nowrap tracking-[0.4px] whitespace-pre">Remove</p>
               </div>
             ) : (
-              <div className="bg-[rgba(100,182,172,0.1)] box-border content-stretch flex gap-[10px] items-center justify-center overflow-clip px-[35px] py-[9px] relative rounded-[50px] shrink-0 cursor-pointer hover:bg-[rgba(100,182,172,0.2)] transition-colors" onClick={() => { addItem({ id: item.title, title: item.title, description: item.description, price: item.price, category: item.category, image: item.image }); toast.success(`${item.title} added to cart`); }}>
+              <div className="bg-[rgba(100,182,172,0.1)] box-border content-stretch flex gap-[10px] items-center justify-center overflow-clip px-[35px] py-[9px] relative rounded-[50px] shrink-0 cursor-pointer hover:bg-[rgba(100,182,172,0.2)] transition-colors" onClick={() => { addItem({ id: item.id, title: item.title, description: item.description, price: item.price, category: item.category, image: item.image }); toast.success(`${item.title} added to cart`); }}>
                 <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#64b6ac] text-[20px] text-nowrap tracking-[0.4px] whitespace-pre">+Add</p>
               </div>
             )}

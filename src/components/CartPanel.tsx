@@ -13,7 +13,7 @@ interface CartPanelProps {
 }
 
 export default function CartPanel({ isOpen, onClose }: CartPanelProps) {
-  const { items, userInfo, removeItem, clearCart, itemCount } = useCart();
+  const { items, userInfo, removeItem, clearCart, setUserInfo, itemCount } = useCart();
   const { formatPrice } = useCurrency();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -87,9 +87,24 @@ export default function CartPanel({ isOpen, onClose }: CartPanelProps) {
         return;
       }
 
+      // Ensure submissionId is set so future cart submissions link to the same user
+      if (data.userRequestId) {
+        setUserInfo({
+          name: finalName,
+          email: finalEmail,
+          phone: finalPhone,
+          age: userInfo?.age,
+          country: userInfo?.country,
+          budget: userInfo?.budget,
+          locationPreference: userInfo?.locationPreference,
+          treatmentDetails: userInfo?.treatmentDetails,
+          submissionId: data.userRequestId,
+        });
+      }
+
       toast.success(`Request submitted with ${data.servicesCount} services!`);
       setSubmitted(true);
-      clearCart();
+      clearCart(); // Clears items but keeps userInfo in context for future submissions
       setTimeout(() => {
         setSubmitted(false);
         onClose();

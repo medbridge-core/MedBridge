@@ -226,7 +226,7 @@ function Frame20() {
 function Frame21() {
   return (
     <div className="box-border content-stretch flex gap-[10px] items-center justify-center overflow-clip px-[24px] py-[11px] relative shrink-0">
-      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#98a1ae] text-[18px] text-nowrap whitespace-pre">Post Treatement</p>
+      <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#98a1ae] text-[18px] text-nowrap whitespace-pre">Post Treatment</p>
     </div>
   );
 }

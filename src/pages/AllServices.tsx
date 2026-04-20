@@ -69,7 +69,7 @@ const tabs: { key: TabKey; label: string; sectionLabel: string }[] = [
   { key: "pre-arrival", label: "Pre Arrival", sectionLabel: "PRE- ARRIVAL" },
   { key: "on-arrival", label: "On Arrival", sectionLabel: "ON ARRIVAL" },
   { key: "during-treatment", label: "During Treatment", sectionLabel: "DURING TREATMENT" },
-  { key: "post-treatment", label: "Post Treatement", sectionLabel: "ADD ONS" },
+  { key: "post-treatment", label: "Post Treatment", sectionLabel: "ADD ONS" },
 ];
 
 function AllServicesCurrencyDropdown() {

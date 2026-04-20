@@ -395,7 +395,7 @@ export default function Desktop() {
             </div>
             <Text1 text="On Arrival" />
             <Text1 text="During Treatment" />
-            <Text1 text="Post Treatement" />
+            <Text1 text="Post Treatment" />
           </div>
           <div className="content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-full">
             <div className="content-stretch flex flex-col gap-[16px] items-start relative shrink-0 w-full">

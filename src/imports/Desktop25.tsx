@@ -261,20 +261,9 @@ function Frame20() {
           <span className="font-['General_Sans:Medium',sans-serif] not-italic text-white tracking-[-0.64px]">Find</span>
           <span className="font-['General_Sans:Light',sans-serif] not-italic"> </span>the Right Hospital,{" "}
         </p>
-        <p>Instantly using</p>
+        <p>Instantly using{" "}<span style={{ background: "linear-gradient(135deg, #038DFE, #0BE0FA)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", fontFamily: "'General Sans', sans-serif", fontWeight: 600 }}>AI</span>{" "}<span style={{ background: "linear-gradient(135deg, #038DFE, #0BE0FA)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", fontSize: "20px" }}>✦</span></p>
       </div>
       <p className="font-['General_Sans:Medium',sans-serif] leading-[normal] min-w-full not-italic opacity-80 relative shrink-0 text-[16px] text-white tracking-[0.32px] w-[min-content]">{`100% verified doctors & hospitals only`}</p>
-      <div className="absolute h-[24.436px] left-[210px] top-[52.33px] w-[57.999px]" data-name="Union">
-        <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 58 25">
-          <path d={svgPaths.p14620200} fill="url(#paint0_linear_18_464)" id="Union" />
-          <defs>
-            <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_18_464" x1="-54.1733" x2="63.9466" y1="34.3667" y2="2.71202">
-              <stop stopColor="#038DFE" />
-              <stop offset="1" stopColor="#0BE0FA" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
     </div>
   );
 }

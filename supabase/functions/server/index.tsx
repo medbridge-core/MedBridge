@@ -46,6 +46,7 @@ async function ensureTables() {
           price_label TEXT DEFAULT 'From',
           availability BOOLEAN DEFAULT true,
           sort_order INTEGER DEFAULT 99,
+          custom_image_url TEXT DEFAULT '',
           created_at TIMESTAMPTZ DEFAULT now()
         );
       `,
@@ -131,32 +132,74 @@ function parseBudget(budgetRange: string): { min: number; max: number } {
 
 // Seed services into the `services` table
 const DEFAULT_SERVICES = [
-  { id: "medical-visa", category: "pre-arrival", title: "Medical Visa", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "medical-visa", price_label: "From", availability: true, sort_order: 1 },
-  { id: "med-x-visa", category: "pre-arrival", title: "Med X Visa", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "med-x-visa", price_label: "Starting from", availability: true, sort_order: 2 },
-  { id: "flight-tickets", category: "pre-arrival", title: "Flight Tickets", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "flight-tickets", price_label: "Starting from", availability: true, sort_order: 3 },
-  { id: "accommodation", category: "on-arrival", title: "Accommodation", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "accommodation", price_label: "From", availability: true, sort_order: 4 },
-  { id: "airport-pickup-drop", category: "on-arrival", title: "Airport Pickup & Drop", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "airport-pickup-drop", price_label: "From", availability: true, sort_order: 5 },
-  { id: "sim-internet", category: "on-arrival", title: "SIM / Internet", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "sim-internet", price_label: "From", availability: true, sort_order: 6 },
-  { id: "in-hospital-liaison", category: "during-treatment", title: "In Hospital Liaison", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "in-hospital-liaison", price_label: "From", availability: true, sort_order: 7 },
-  { id: "local-transport", category: "during-treatment", title: "Local Transport /- Day", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "local-transport", price_label: "From", availability: true, sort_order: 8 },
-  { id: "food", category: "during-treatment", title: "Food", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "food", price_label: "From", availability: true, sort_order: 9 },
-  { id: "translator", category: "post-treatment", title: "Translator /- Day", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "translator", price_label: "From", availability: true, sort_order: 10 },
-  { id: "caregivers", category: "post-treatment", title: "Caregivers", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "caregivers", price_label: "From", availability: true, sort_order: 11 },
-  { id: "dietician", category: "post-treatment", title: "Dietician", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "dietician", price_label: "From", availability: true, sort_order: 12 },
-  { id: "rehabilitation-center", category: "post-treatment", title: "Rehabilitation Center", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "rehabilitation-center", price_label: "From", availability: true, sort_order: 13 },
-  { id: "foreign-exchange", category: "post-treatment", title: "Foreign Exchange", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "foreign-exchange", price_label: "From", availability: true, sort_order: 14 },
-  { id: "insurance-assistance", category: "post-treatment", title: "Insurance Assistance", description: "Comfy Ride from airport to hotel", amount: 4000, image_key: "insurance-assistance", price_label: "From", availability: true, sort_order: 15 },
+  { id: "medical-visa", category: "pre-arrival", title: "Medical Visa", description: "Complete support for obtaining a medical visa smoothly and quickly", amount: 5000, image_key: "medical-visa", price_label: "From", availability: true, sort_order: 1 },
+  { id: "med-x-visa", category: "pre-arrival", title: "Med X Visa", description: "Assistance for companion visa for patient attendants", amount: 4000, image_key: "med-x-visa", price_label: "From", availability: true, sort_order: 2 },
+  { id: "flight-tickets", category: "pre-arrival", title: "Flight Tickets", description: "Affordable international and domestic flight booking support", amount: 25000, image_key: "flight-tickets", price_label: "From", availability: true, sort_order: 3 },
+  { id: "accommodation", category: "on-arrival", title: "Accommodation", description: "Comfortable stay options near hospitals based on budget", amount: 2000, image_key: "accommodation", price_label: "From", availability: true, sort_order: 4 },
+  { id: "airport-pickup-drop", category: "on-arrival", title: "Airport Pickup & Drop", description: "Reliable airport transfers for hassle-free travel", amount: 1500, image_key: "airport-pickup-drop", price_label: "From", availability: true, sort_order: 5 },
+  { id: "sim-internet", category: "on-arrival", title: "SIM Card & Internet", description: "Instant connectivity with local SIM and data services", amount: 500, image_key: "sim-internet", price_label: "From", availability: true, sort_order: 6 },
+  { id: "in-hospital-liaison", category: "during-treatment", title: "Hospital Liaisoning", description: "End-to-end coordination with hospitals and doctors", amount: 3000, image_key: "in-hospital-liaison", price_label: "From", availability: true, sort_order: 7 },
+  { id: "local-transport", category: "during-treatment", title: "Local Transport (Per Day)", description: "Dedicated vehicle for daily hospital visits and city travel", amount: 2500, image_key: "local-transport", price_label: "From", availability: true, sort_order: 8 },
+  { id: "food", category: "during-treatment", title: "Food Services (Per Day)", description: "Daily meal arrangements customized to cuisine and dietary needs", amount: 800, image_key: "food", price_label: "From", availability: true, sort_order: 9 },
+  { id: "translator", category: "post-treatment", title: "Medical Translator", description: "Language support for clear communication with doctors", amount: 2000, image_key: "translator", price_label: "From", availability: true, sort_order: 10 },
+  { id: "caregivers", category: "post-treatment", title: "Caregiver (Post-Treatment)", description: "Professional caregiving support during recovery", amount: 1500, image_key: "caregivers", price_label: "From", availability: true, sort_order: 11 },
+  { id: "dietician", category: "post-treatment", title: "Dietician Consultation", description: "Personalized diet plans for recovery and health improvement", amount: 2000, image_key: "dietician", price_label: "From", availability: true, sort_order: 12 },
+  { id: "rehabilitation-center", category: "post-treatment", title: "Rehabilitation Center Support", description: "Assistance in finding and booking rehab facilities", amount: 3000, image_key: "rehabilitation-center", price_label: "From", availability: true, sort_order: 13 },
+  { id: "foreign-exchange", category: "post-treatment", title: "Foreign Exchange Services", description: "Easy and secure currency exchange assistance", amount: 1000, image_key: "foreign-exchange", price_label: "From", availability: true, sort_order: 14 },
+  { id: "insurance-assistance", category: "post-treatment", title: "Insurance Assistance", description: "Help with medical insurance claims and documentation", amount: 2500, image_key: "insurance-assistance", price_label: "From", availability: true, sort_order: 15 },
 ];
 
-// Helper: get services from table, fall back to KV
+// Helper: get services from table, merging any KV-only services into the table
 async function getServicesFromTable(onlyAvailable = true): Promise<any[]> {
+  // Try table first
+  let tableServices: any[] = [];
+  let tableOk = false;
   try {
     let query = supabase.from("services").select("*").order("sort_order", { ascending: true });
     if (onlyAvailable) query = query.eq("availability", true);
     const { data, error } = await query;
-    if (!error && data && data.length > 0) return data;
+    if (!error && data) {
+      tableServices = data;
+      tableOk = true;
+    }
   } catch {}
-  // Fallback to KV
+
+  // If table works and has data, return it
+  if (tableOk && tableServices.length > 0) return tableServices;
+
+  // If table works but is empty, try migrating KV services into the table
+  if (tableOk) {
+    try {
+      const catalog = await kv.get("services:catalog");
+      if (catalog) {
+        const ids: string[] = typeof catalog === "string" ? JSON.parse(catalog) : catalog;
+        const keys = ids.map((id: string) => `service:${id}`);
+        const values = await kv.mget(keys);
+        const kvServices = values
+          .map((v: any) => { if (!v) return null; return typeof v === "string" ? JSON.parse(v) : v; })
+          .filter((s: any) => s !== null);
+        if (kvServices.length > 0) {
+          // Migrate KV services into the table
+          console.log(`Migrating ${kvServices.length} services from KV to table`);
+          const { error: upsertErr } = await supabase.from("services").upsert(kvServices, { onConflict: "id" });
+          if (!upsertErr) {
+            // Re-query the table
+            let query = supabase.from("services").select("*").order("sort_order", { ascending: true });
+            if (onlyAvailable) query = query.eq("availability", true);
+            const { data } = await query;
+            if (data && data.length > 0) return data;
+          }
+          // If migration failed, return KV data directly
+          return kvServices
+            .filter((s: any) => !onlyAvailable || s.availability !== false)
+            .sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0));
+        }
+      }
+    } catch {}
+    return [];
+  }
+
+  // Table not accessible — pure KV fallback
   try {
     const catalog = await kv.get("services:catalog");
     if (!catalog) return [];
@@ -165,7 +208,7 @@ async function getServicesFromTable(onlyAvailable = true): Promise<any[]> {
     const values = await kv.mget(keys);
     return values
       .map((v: any) => { if (!v) return null; return typeof v === "string" ? JSON.parse(v) : v; })
-      .filter((s: any) => s !== null && (!onlyAvailable || s.availability === true))
+      .filter((s: any) => s !== null && (!onlyAvailable || s.availability !== false))
       .sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0));
   } catch { return []; }
 }
@@ -612,12 +655,9 @@ app.post("/make-server-3079ee5f/admin/migrate", async (c) => {
   }
 });
 
-// Force seed services
+// Force seed services (upsert — does NOT delete existing custom services)
 app.post("/make-server-3079ee5f/admin/services/force-seed", async (c) => {
   try {
-    // Delete from table
-    await supabase.from("services").delete().neq("id", "");
-    // Seed fresh
     const count = await seedServicesToTable();
     return c.json({ success: true, count });
   } catch (error) {
@@ -733,6 +773,45 @@ app.delete("/make-server-3079ee5f/admin/services/:id", async (c) => {
       await kv.set("services:catalog", JSON.stringify(ids.filter((i: string) => i !== id)));
     }
     return c.json({ success: true });
+  } catch (error) { return c.json({ error: `${error}` }, 500); }
+});
+
+// --- SERVICE IMAGE UPLOAD ---
+app.post("/make-server-3079ee5f/admin/services/:id/image", async (c) => {
+  try {
+    const id = c.req.param("id");
+    const formData = await c.req.formData();
+    const file = formData.get("file");
+    if (!file || !(file instanceof File)) return c.json({ error: "No file uploaded" }, 400);
+
+    const ext = file.name.split(".").pop() || "png";
+    const filePath = `services/${id}.${ext}`;
+    const arrayBuffer = await file.arrayBuffer();
+
+    // Upload to Supabase Storage
+    const { error: uploadErr } = await supabase.storage
+      .from("service-images")
+      .upload(filePath, arrayBuffer, {
+        contentType: file.type,
+        upsert: true,
+      });
+
+    if (uploadErr) {
+      // Try creating the bucket first
+      await supabase.storage.createBucket("service-images", { public: true }).catch(() => {});
+      const { error: retryErr } = await supabase.storage
+        .from("service-images")
+        .upload(filePath, arrayBuffer, { contentType: file.type, upsert: true });
+      if (retryErr) return c.json({ error: `Upload failed: ${retryErr.message}` }, 500);
+    }
+
+    const { data: urlData } = supabase.storage.from("service-images").getPublicUrl(filePath);
+    const publicUrl = urlData.publicUrl;
+
+    // Update the service record with the custom image URL
+    await supabase.from("services").update({ custom_image_url: publicUrl }).eq("id", id);
+
+    return c.json({ success: true, url: publicUrl });
   } catch (error) { return c.json({ error: `${error}` }, 500); }
 });
 

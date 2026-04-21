@@ -12,8 +12,12 @@ CREATE TABLE IF NOT EXISTS services (
   price_label TEXT DEFAULT 'From',
   availability BOOLEAN DEFAULT true,
   sort_order INTEGER DEFAULT 99,
+  custom_image_url TEXT DEFAULT '',
   created_at TIMESTAMPTZ DEFAULT now()
 );
+
+-- Add custom_image_url column if services table already exists
+ALTER TABLE services ADD COLUMN IF NOT EXISTS custom_image_url TEXT DEFAULT '';
 
 -- Create cart_submissions table
 CREATE TABLE IF NOT EXISTS cart_submissions (
@@ -37,3 +41,6 @@ CREATE TABLE IF NOT EXISTS cart_items (
 );
 CREATE INDEX IF NOT EXISTS idx_cart_items_submission ON cart_items(cart_submission_id);
 CREATE INDEX IF NOT EXISTS idx_cart_items_service ON cart_items(service_id);
+
+-- Create storage bucket for service images (run manually if needed)
+-- INSERT INTO storage.buckets (id, name, public) VALUES ('service-images', 'service-images', true) ON CONFLICT DO NOTHING;

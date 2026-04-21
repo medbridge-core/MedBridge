@@ -303,6 +303,39 @@ const IMAGE_KEYS = [
   "caregivers", "dietician", "rehabilitation-center", "foreign-exchange", "insurance-assistance",
 ];
 
+// ServiceForm extracted outside ServicesTab to prevent re-creation on every render (fixes focus loss)
+function ServiceForm({ item, setItem, isEdit, onUploadImage }: { item: any; setItem: (v: any) => void; isEdit?: boolean; onUploadImage?: (id: string, file: File) => void }) {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && onUploadImage && item.id) {
+      onUploadImage(item.id, file);
+    }
+  };
+
+  return (
+    <div className="grid grid-cols-2 gap-4">
+      <Field label="ID (slug)" value={item.id} onChange={(v) => setItem({ ...item, id: v })} disabled={!!isEdit} />
+      <Field label="Title" value={item.title} onChange={(v) => setItem({ ...item, title: v })} />
+      <div className="col-span-2">
+        <Field label="Description" value={item.description} onChange={(v) => setItem({ ...item, description: v })} />
+      </div>
+      <Field label="Category" value={item.category} onChange={(v) => setItem({ ...item, category: v })} type="select" options={CATEGORY_OPTIONS} />
+      <Field label="Amount (INR)" value={item.amount} onChange={(v) => setItem({ ...item, amount: v })} type="number" />
+      <Field label="Price Label" value={item.price_label} onChange={(v) => setItem({ ...item, price_label: v })} type="select" options={[{ value: "From", label: "From" }, { value: "Starting from", label: "Starting from" }]} />
+      <Field label="Image Key" value={item.image_key} onChange={(v) => setItem({ ...item, image_key: v })} type="select" options={IMAGE_KEYS.map((k) => ({ value: k, label: k }))} />
+      <Field label="Sort Order" value={item.sort_order} onChange={(v) => setItem({ ...item, sort_order: v })} type="number" />
+      <Field label="Availability" value={item.availability} onChange={(v) => setItem({ ...item, availability: v })} type="boolean" />
+      <div className="col-span-2 flex flex-col gap-1">
+        <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Upload Image</label>
+        <div className="flex items-center gap-3">
+          <input type="file" accept="image/*" onChange={handleImageUpload} className="text-sm text-gray-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border file:border-gray-200 file:text-sm file:font-medium file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100" />
+          {item.custom_image_url && <img src={item.custom_image_url} alt="" className="h-10 w-10 rounded-lg object-cover border border-gray-200" />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ServicesTab() {
   const [services, setServices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -317,13 +350,7 @@ function ServicesTab() {
     setLoading(true);
     try {
       const res = await api("/admin/services");
-      const svcs = res.services || [];
-      if (svcs.length === 0) {
-        console.log("No services found, auto-seeding...");
-        await seedServices();
-        return;
-      }
-      setServices(svcs);
+      setServices(res.services || []);
     } catch (e: any) { toast.error(e.message); }
     setLoading(false);
   }, []);
@@ -332,19 +359,10 @@ function ServicesTab() {
     setSeeding(true);
     try {
       await api("/admin/services/force-seed", "POST");
-      toast.success("Services seeded successfully!");
-      const res = await api("/admin/services");
-      setServices(res.services || []);
-    } catch (e: any) {
-      try {
-        await api("/services/seed", "POST");
-        toast.success("Services seeded successfully!");
-        const res = await api("/admin/services");
-        setServices(res.services || []);
-      } catch (e2: any) { toast.error(`Failed to seed: ${e2.message}`); }
-    }
+      toast.success("Services seeded/updated successfully!");
+      await load();
+    } catch (e: any) { toast.error(`Failed to seed: ${e.message}`); }
     setSeeding(false);
-    setLoading(false);
   };
 
   useEffect(() => { load(); }, [load]);
@@ -390,22 +408,27 @@ function ServicesTab() {
     } catch (e: any) { toast.error(e.message); }
   };
 
+  const handleUploadImage = async (serviceId: string, file: File) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch(`${API}/admin/services/${serviceId}/image`, {
+        method: "POST",
+        headers: { Authorization: headers.Authorization },
+        body: formData,
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Upload failed");
+      toast.success("Image uploaded!");
+      if (editItem && editItem.id === serviceId) {
+        setEditItem({ ...editItem, custom_image_url: json.url });
+      }
+      load();
+    } catch (e: any) { toast.error(e.message); }
+  };
+
   const filtered = services.filter((s) =>
     search === "" || s.title.toLowerCase().includes(search.toLowerCase()) || s.category.toLowerCase().includes(search.toLowerCase())
-  );
-
-  const ServiceForm = ({ item, setItem }: { item: any; setItem: (v: any) => void }) => (
-    <div className="grid grid-cols-2 gap-4">
-      <Field label="ID (slug)" value={item.id} onChange={(v) => setItem({ ...item, id: v })} disabled={!!editItem} />
-      <Field label="Title" value={item.title} onChange={(v) => setItem({ ...item, title: v })} />
-      <Field label="Description" value={item.description} onChange={(v) => setItem({ ...item, description: v })} />
-      <Field label="Category" value={item.category} onChange={(v) => setItem({ ...item, category: v })} type="select" options={CATEGORY_OPTIONS} />
-      <Field label="Amount (INR)" value={item.amount} onChange={(v) => setItem({ ...item, amount: v })} type="number" />
-      <Field label="Price Label" value={item.price_label} onChange={(v) => setItem({ ...item, price_label: v })} type="select" options={[{ value: "From", label: "From" }, { value: "Starting from", label: "Starting from" }]} />
-      <Field label="Image Key" value={item.image_key} onChange={(v) => setItem({ ...item, image_key: v })} type="select" options={IMAGE_KEYS.map((k) => ({ value: k, label: k }))} />
-      <Field label="Sort Order" value={item.sort_order} onChange={(v) => setItem({ ...item, sort_order: v })} type="number" />
-      <Field label="Availability" value={item.availability} onChange={(v) => setItem({ ...item, availability: v })} type="boolean" />
-    </div>
   );
 
   return (
@@ -456,7 +479,7 @@ function ServicesTab() {
 
       {editItem && (
         <Modal title={`Edit: ${editItem.title}`} onClose={() => setEditItem(null)} wide>
-          <ServiceForm item={editItem} setItem={setEditItem} />
+          <ServiceForm item={editItem} setItem={setEditItem} isEdit onUploadImage={handleUploadImage} />
           <div className="flex gap-3 pt-5 mt-2 border-t border-gray-100">
             <SaveButton onClick={handleSave} loading={saving} />
             <DeleteButton onClick={() => { handleDelete(editItem.id); setEditItem(null); }} loading={false} />
